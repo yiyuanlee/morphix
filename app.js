@@ -65,6 +65,13 @@ const i18n = {
     restDay: '🛌 休息恢复', restDetail: '主动恢复：散步 / 拉伸 / 充足睡眠',
     weeksUnit: (w) => `${w} 周`, goalReached: '已达标',
     footerDisclaimer: '⚠️ 本计划基于运动科学理论生成，仅供参考。如有特殊健康情况，请咨询专业医师或教练后再开始训练。',
+    statNum1: '科学', statNum2: '个性', statNum3: '精准',
+    phoneHeader: '今日训练',
+    ex1Name: '热身跑步', ex1Time: '10 分钟',
+    ex2Name: '深蹲训练',
+    ex3Name: '卧推',
+    ex4Name: '核心训练', ex4Time: '15 分钟',
+    fcKcalLabel: '卡路里消耗', fcDaysLabel: '预计天数',
   },
   en: {
     navFeatures: 'Features', navCalc: 'Get Started', navHow: 'How It Works', navCta: 'Start Now',
@@ -117,6 +124,13 @@ const i18n = {
     restDay: '🛌 Rest & Recovery', restDetail: 'Active recovery: walking / stretching / quality sleep',
     weeksUnit: (w) => `${w} wks`, goalReached: 'Already at goal!',
     footerDisclaimer: '⚠️ Plans are generated based on exercise science principles for informational purposes only. Consult a licensed physician or certified trainer before starting any new program.',
+    statNum1: 'Science', statNum2: 'Personal', statNum3: 'Precise',
+    phoneHeader: "Today's Workout",
+    ex1Name: 'Warm-Up Run', ex1Time: '10 min',
+    ex2Name: 'Squat Training',
+    ex3Name: 'Bench Press',
+    ex4Name: 'Core Training', ex4Time: '15 min',
+    fcKcalLabel: 'Calories Burned', fcDaysLabel: 'Est. Days',
   }
 };
 
@@ -221,6 +235,18 @@ function applyTranslations() {
   // Footer
   const fd = document.getElementById('footerDisclaimer');
   if (fd) fd.textContent = T.footerDisclaimer;
+
+  // Hero stat numbers & phone mockup
+  setText('statNum1', T.statNum1);
+  setText('statNum2', T.statNum2);
+  setText('statNum3', T.statNum3);
+  setText('phoneHeader', T.phoneHeader);
+  setText('ex1Name', T.ex1Name); setText('ex1Time', T.ex1Time);
+  setText('ex2Name', T.ex2Name);
+  setText('ex3Name', T.ex3Name);
+  setText('ex4Name', T.ex4Name); setText('ex4Time', T.ex4Time);
+  setText('fcKcalLabel', T.fcKcalLabel);
+  setText('fcDaysLabel', T.fcDaysLabel);
 }
 
 function setText(id, txt) {

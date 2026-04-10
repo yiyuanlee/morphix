@@ -75,17 +75,17 @@
       </div>
       <div class="hero-stats">
         <div class="stat-card">
-          <span class="stat-number">科学</span>
+          <span class="stat-number" id="statNum1">科学</span>
           <span class="stat-label" id="statBmi">BMI 评估</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-card">
-          <span class="stat-number">个性</span>
+          <span class="stat-number" id="statNum2">个性</span>
           <span class="stat-label" id="statCustom">定制方案</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-card">
-          <span class="stat-number">精准</span>
+          <span class="stat-number" id="statNum3">精准</span>
           <span class="stat-label" id="statPlan">目标规划</span>
         </div>
       </div>
@@ -94,7 +94,7 @@
       <div class="phone-mockup">
         <div class="phone-screen">
           <div class="phone-ui">
-            <div class="ui-header">今日训练</div>
+            <div class="ui-header" id="phoneHeader">今日训练</div>
             <div class="ui-progress">
               <div class="progress-ring">
                 <svg viewBox="0 0 80 80">
@@ -115,23 +115,23 @@
             <div class="ui-exercises">
               <div class="exercise-item done">
                 <span class="ex-icon">✓</span>
-                <span class="ex-name">热身跑步</span>
-                <span class="ex-time">10 分钟</span>
+                <span class="ex-name" id="ex1Name">热身跑步</span>
+                <span class="ex-time" id="ex1Time">10 分钟</span>
               </div>
               <div class="exercise-item done">
                 <span class="ex-icon">✓</span>
-                <span class="ex-name">深蹲训练</span>
+                <span class="ex-name" id="ex2Name">深蹲训练</span>
                 <span class="ex-time">3×15</span>
               </div>
               <div class="exercise-item active">
                 <span class="ex-icon pulse-dot"></span>
-                <span class="ex-name">卧推</span>
+                <span class="ex-name" id="ex3Name">卧推</span>
                 <span class="ex-time">3×12</span>
               </div>
               <div class="exercise-item">
                 <span class="ex-icon">○</span>
-                <span class="ex-name">核心训练</span>
-                <span class="ex-time">15 分钟</span>
+                <span class="ex-name" id="ex4Name">核心训练</span>
+                <span class="ex-time" id="ex4Time">15 分钟</span>
               </div>
             </div>
           </div>
@@ -141,14 +141,14 @@
         <div class="fc-icon">🔥</div>
         <div class="fc-info">
           <span class="fc-val">480</span>
-          <span class="fc-label">卡路里消耗</span>
+          <span class="fc-label" id="fcKcalLabel">卡路里消耗</span>
         </div>
       </div>
       <div class="floating-card card-days">
         <div class="fc-icon">📅</div>
         <div class="fc-info">
           <span class="fc-val">42</span>
-          <span class="fc-label">预计天数</span>
+          <span class="fc-label" id="fcDaysLabel">预计天数</span>
         </div>
       </div>
     </div>
