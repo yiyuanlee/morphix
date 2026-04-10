@@ -39,11 +39,14 @@
         <span class="logo-text">Mor<span class="logo-accent">phix</span></span>
       </div>
       <div class="nav-links">
-        <a href="#features" class="nav-link">功能</a>
-        <a href="#calculator" class="nav-link">开始计划</a>
-        <a href="#how-it-works" class="nav-link">原理</a>
+        <a href="#features" class="nav-link" id="navFeatures">功能</a>
+        <a href="#calculator" class="nav-link" id="navCalc">开始计划</a>
+        <a href="#how-it-works" class="nav-link" id="navHow">原理</a>
       </div>
-      <a href="#calculator" class="nav-cta">立即开始</a>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
+        <span id="langLabel">EN</span>
+      </button>
+      <a href="#calculator" class="nav-cta" id="navCta">立即开始</a>
     </div>
   </nav>
 
@@ -52,39 +55,38 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        AI 驱动·个性化定制
+        <span id="heroBadgeText">AI 驱动·个性化定制</span>
       </div>
       <h1 class="hero-title">
-        打造<span class="gradient-text">专属你的</span><br/>
-        智能健身计划
+        <span id="heroTitle1">打造</span><span class="gradient-text" id="heroTitle2">专属你的</span><br/>
+        <span id="heroTitle3">智能健身计划</span>
       </h1>
-      <p class="hero-subtitle">
-        输入你的身体数据和目标，Morphix 将为你生成科学的训练计划、<br/>
-        营养建议与时间规划，高效开启健康生活。
+      <p class="hero-subtitle" id="heroSub">
+        输入你的身体数据和目标，Morphix 将为你生成科学的训练计划、营养建议与时间规划，高效开启健康生活。
       </p>
       <div class="hero-actions">
         <a href="#calculator" class="btn-primary" id="heroStartBtn">
-          <span>立即定制我的计划</span>
+          <span id="heroCta">立即定制我的计划</span>
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/>
           </svg>
         </a>
-        <a href="#how-it-works" class="btn-ghost">了解原理</a>
+        <a href="#how-it-works" class="btn-ghost" id="heroGhost">了解原理</a>
       </div>
       <div class="hero-stats">
         <div class="stat-card">
           <span class="stat-number">科学</span>
-          <span class="stat-label">BMI 评估</span>
+          <span class="stat-label" id="statBmi">BMI 评估</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-card">
           <span class="stat-number">个性</span>
-          <span class="stat-label">定制方案</span>
+          <span class="stat-label" id="statCustom">定制方案</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-card">
           <span class="stat-number">精准</span>
-          <span class="stat-label">目标规划</span>
+          <span class="stat-label" id="statPlan">目标规划</span>
         </div>
       </div>
     </div>
@@ -155,8 +157,8 @@
   <!-- Features Section -->
   <section class="features" id="features">
     <div class="section-header">
-      <div class="section-tag">核心功能</div>
-      <h2 class="section-title">一切你需要的，都在这里</h2>
+      <div class="section-tag" id="featuresTag">核心功能</div>
+      <h2 class="section-title" id="featuresTitle">一切你需要的，都在这里</h2>
     </div>
     <div class="features-grid">
       <div class="feature-card" data-delay="0">
@@ -167,8 +169,8 @@
             <defs><linearGradient id="f1g" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>智能计划生成</h3>
-        <p>根据你的数据自动生成每日训练安排，涵盖有氧、力量与柔韧性训练。</p>
+        <h3 id="f1Title">智能计划生成</h3>
+        <p id="f1Desc">根据你的数据自动生成每日训练安排，涵盖有氧、力量与柔韧性训练。</p>
       </div>
       <div class="feature-card" data-delay="100">
         <div class="feature-icon">
@@ -177,8 +179,8 @@
             <defs><linearGradient id="f2g" x1="0" y1="0" x2="48" y2="0"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>BMI 健康评估</h3>
-        <p>精准计算 BMI 并给出健康状况评估，了解你的当前体型与目标差距。</p>
+        <h3 id="f2Title">BMI 健康评估</h3>
+        <p id="f2Desc">精准计算 BMI 并给出健康状况评估，了解你的当前体型与目标差距。</p>
       </div>
       <div class="feature-card" data-delay="200">
         <div class="feature-icon">
@@ -188,8 +190,8 @@
             <defs><linearGradient id="f3g" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>目标时间预测</h3>
-        <p>基于你的训练强度和生理数据，科学预测达成目标体重所需时间。</p>
+        <h3 id="f3Title">目标时间预测</h3>
+        <p id="f3Desc">基于你的训练强度和生理数据，科学预测达成目标体重所需时间。</p>
       </div>
       <div class="feature-card" data-delay="300">
         <div class="feature-icon">
@@ -198,8 +200,8 @@
             <defs><linearGradient id="f4g" x1="0" y1="0" x2="48" y2="0"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>营养饮食建议</h3>
-        <p>根据目标提供每日卡路里摄入建议和蛋白质配比，助力高效塑形。</p>
+        <h3 id="f4Title">营养饮食建议</h3>
+        <p id="f4Desc">根据目标提供每日卡路里摄入建议和蛋白质配比，助力高效塑形。</p>
       </div>
       <div class="feature-card" data-delay="400">
         <div class="feature-icon">
@@ -209,8 +211,8 @@
             <defs><linearGradient id="f5g" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>个性化适配</h3>
-        <p>考虑训练时间效率，计划适配健身新手到进阶用户的不同需求。</p>
+        <h3 id="f5Title">个性化适配</h3>
+        <p id="f5Desc">考虑训练时间效率，计划适配健身新手到进阶用户的不同需求。</p>
       </div>
       <div class="feature-card" data-delay="500">
         <div class="feature-icon">
@@ -219,8 +221,8 @@
             <defs><linearGradient id="f6g" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <h3>科学依据支撑</h3>
-        <p>计划基于运动科学和营养学原理，安全、高效、可持续。</p>
+        <h3 id="f6Title">科学依据支撑</h3>
+        <p id="f6Desc">计划基于运动科学和营养学原理，安全、高效、可持续。</p>
       </div>
     </div>
   </section>
@@ -228,31 +230,31 @@
   <!-- How It Works -->
   <section class="how-it-works" id="how-it-works">
     <div class="section-header">
-      <div class="section-tag">使用流程</div>
-      <h2 class="section-title">三步开启健身之旅</h2>
+      <div class="section-tag" id="howTag">使用流程</div>
+      <h2 class="section-title" id="howTitle">三步开启健身之旅</h2>
     </div>
     <div class="steps-container">
       <div class="step">
         <div class="step-number">01</div>
         <div class="step-content">
-          <h3>输入你的数据</h3>
-          <p>填写身高、体重、目标体重和每天可用于健身的时间。</p>
+          <h3 id="step1Title">输入你的数据</h3>
+          <p id="step1Desc">填写身高、体重、目标体重和每天可用于健身的时间。</p>
         </div>
         <div class="step-arrow">→</div>
       </div>
       <div class="step">
         <div class="step-number">02</div>
         <div class="step-content">
-          <h3>AI 分析评估</h3>
-          <p>系统分析你的 BMI、体重差距，计算每周健康减重/增重目标。</p>
+          <h3 id="step2Title">AI 分析评估</h3>
+          <p id="step2Desc">系统分析你的 BMI、体重差距，计算每周健康减重/增重目标。</p>
         </div>
         <div class="step-arrow">→</div>
       </div>
       <div class="step">
         <div class="step-number">03</div>
         <div class="step-content">
-          <h3>获取专属计划</h3>
-          <p>获得完整的训练计划、营养建议和达成目标的预计时间表。</p>
+          <h3 id="step3Title">获取专属计划</h3>
+          <p id="step3Desc">获得完整的训练计划、营养建议和达成目标的预计时间表。</p>
         </div>
       </div>
     </div>
@@ -261,9 +263,9 @@
   <!-- Calculator Section -->
   <section class="calculator-section" id="calculator">
     <div class="section-header">
-      <div class="section-tag">开始定制</div>
-      <h2 class="section-title">填写你的健身信息</h2>
-      <p class="section-subtitle">所有数据仅在本地计算，完全保护你的隐私。</p>
+      <div class="section-tag" id="calcTag">开始定制</div>
+      <h2 class="section-title" id="calcTitle">填写你的健身信息</h2>
+      <p class="section-subtitle" id="calcSub">所有数据仅在本地计算，完全保护你的隐私。</p>
     </div>
 
     <div class="calc-wrapper">
@@ -271,19 +273,19 @@
       <div class="calc-form" id="calcForm">
         <div class="form-section">
           <h3 class="form-section-title">
-            <span class="section-icon">📏</span> 基本信息
+            <span class="section-icon">📏</span> <span id="formBasicTitle">基本信息</span>
           </h3>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="height">身高</label>
+              <label for="height" id="labelHeight">身高</label>
               <div class="input-wrapper">
                 <input type="number" id="height" placeholder="例如 175" min="100" max="250" />
                 <span class="input-unit">cm</span>
               </div>
             </div>
             <div class="form-group">
-              <label for="age">年龄</label>
+              <label for="age" id="labelAge">年龄</label>
               <div class="input-wrapper">
                 <input type="number" id="age" placeholder="例如 25" min="15" max="80" />
                 <span class="input-unit">岁</span>
@@ -293,14 +295,14 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label for="currentWeight">当前体重</label>
+              <label for="currentWeight" id="labelCurrent">当前体重</label>
               <div class="input-wrapper">
                 <input type="number" id="currentWeight" placeholder="例如 75" min="30" max="300" step="0.1" />
                 <span class="input-unit">kg</span>
               </div>
             </div>
             <div class="form-group">
-              <label for="targetWeight">目标体重</label>
+              <label for="targetWeight" id="labelTarget">目标体重</label>
               <div class="input-wrapper">
                 <input type="number" id="targetWeight" placeholder="例如 65" min="30" max="300" step="0.1" />
                 <span class="input-unit">kg</span>
@@ -309,13 +311,13 @@
           </div>
 
           <div class="form-group gender-group">
-            <label>性别</label>
+            <label id="labelGender">性别</label>
             <div class="gender-select">
               <button type="button" class="gender-btn active" id="genderMale" data-gender="male" onclick="selectGender('male')">
-                <span>♂</span> 男性
+                <span id="genderMaleText">♂ 男性</span>
               </button>
               <button type="button" class="gender-btn" id="genderFemale" data-gender="female" onclick="selectGender('female')">
-                <span>♀</span> 女性
+                <span id="genderFemaleText">♀ 女性</span>
               </button>
             </div>
           </div>
@@ -323,63 +325,65 @@
 
         <div class="form-section">
           <h3 class="form-section-title">
-            <span class="section-icon">⏱️</span> 训练安排
+            <span class="section-icon">⏱️</span> <span id="formTrainingTitle">训练安排</span>
           </h3>
 
           <div class="form-group">
-            <label for="dailyTime">每天健身时间</label>
+            <label for="dailyTime" id="labelDailyTime">每天健身时间</label>
             <div class="time-slider-wrap">
               <input type="range" id="dailyTime" min="15" max="120" step="15" value="45" oninput="updateTimeDisplay(this.value)" />
               <div class="time-labels">
-                <span>15分</span>
-                <span>30分</span>
-                <span>45分</span>
-                <span>60分</span>
-                <span>90分</span>
-                <span>120分</span>
+                <span>15</span>
+                <span>30</span>
+                <span>45</span>
+                <span>60</span>
+                <span>75</span>
+                <span>90</span>
+                <span>105</span>
+                <span>120</span>
               </div>
             </div>
             <div class="time-display" id="timeDisplay">45 分钟 / 天</div>
           </div>
 
           <div class="form-group">
-            <label>健身频率（每周）</label>
+            <label id="labelFrequency">健身频率（每周）</label>
             <div class="frequency-select" id="frequencySelect">
-              <button type="button" class="freq-btn" data-days="3" onclick="selectFrequency(3)">3天</button>
-              <button type="button" class="freq-btn active" data-days="4" onclick="selectFrequency(4)">4天</button>
-              <button type="button" class="freq-btn" data-days="5" onclick="selectFrequency(5)">5天</button>
-              <button type="button" class="freq-btn" data-days="6" onclick="selectFrequency(6)">6天</button>
-              <button type="button" class="freq-btn" data-days="7" onclick="selectFrequency(7)">7天</button>
+              <button type="button" class="freq-btn" data-days="3" onclick="selectFrequency(3)">3</button>
+              <button type="button" class="freq-btn active" data-days="4" onclick="selectFrequency(4)">4</button>
+              <button type="button" class="freq-btn" data-days="5" onclick="selectFrequency(5)">5</button>
+              <button type="button" class="freq-btn" data-days="6" onclick="selectFrequency(6)">6</button>
+              <button type="button" class="freq-btn" data-days="7" onclick="selectFrequency(7)">7</button>
             </div>
           </div>
 
           <div class="form-group">
-            <label>健身目标</label>
+            <label id="labelGoal">健身目标</label>
             <div class="goal-select" id="goalSelect">
-              <button type="button" class="goal-btn" data-goal="lose" onclick="selectGoal('lose')">🔥 减脂</button>
-              <button type="button" class="goal-btn active" data-goal="balance" onclick="selectGoal('balance')">⚡ 塑形</button>
-              <button type="button" class="goal-btn" data-goal="gain" onclick="selectGoal('gain')">💪 增肌</button>
+              <button type="button" class="goal-btn" data-goal="lose" onclick="selectGoal('lose')" id="goalLoseBtn"><span id="goalLoseText">🔥 减脂</span></button>
+              <button type="button" class="goal-btn active" data-goal="balance" onclick="selectGoal('balance')" id="goalBalanceBtn"><span id="goalBalanceText">⚡ 塑形</span></button>
+              <button type="button" class="goal-btn" data-goal="gain" onclick="selectGoal('gain')" id="goalGainBtn"><span id="goalGainText">💪 增肌</span></button>
             </div>
           </div>
 
           <div class="form-group">
-            <label>当前健身水平</label>
+            <label id="labelLevel">当前健身水平</label>
             <div class="level-select" id="levelSelect">
               <button type="button" class="level-btn active" data-level="beginner" onclick="selectLevel('beginner')">
-                <span class="level-dot"></span>新手
+                <span class="level-dot"></span><span id="levelBeginnerText">新手</span>
               </button>
               <button type="button" class="level-btn" data-level="intermediate" onclick="selectLevel('intermediate')">
-                <span class="level-dot"></span>进阶
+                <span class="level-dot"></span><span id="levelIntermediateText">进阶</span>
               </button>
               <button type="button" class="level-btn" data-level="advanced" onclick="selectLevel('advanced')">
-                <span class="level-dot"></span>高级
+                <span class="level-dot"></span><span id="levelAdvancedText">高级</span>
               </button>
             </div>
           </div>
         </div>
 
         <button class="generate-btn" id="generateBtn" onclick="generatePlan()">
-          <span class="btn-text">生成我的专属计划</span>
+          <span class="btn-text" id="generateBtnText">生成我的专属计划</span>
           <span class="btn-icon">
             <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -403,7 +407,7 @@
               </defs>
             </svg>
           </div>
-          <p>填写左侧信息后，<br/>你的专属计划将在这里呈现</p>
+          <p id="resultsPlaceholderMsg">填写左侧信息后，<br/>你的专属计划将在这里呈现</p>
         </div>
 
         <div class="results-content" id="resultsContent" style="display:none">
@@ -421,7 +425,7 @@
         <p>Transform Your Body. Powered by Science.</p>
       </div>
       <div class="footer-note">
-        <p>⚠️ 本计划基于运动科学理论生成，仅供参考。如有特殊健康情况，请咨询专业医师或教练后再开始训练。</p>
+        <p id="footerDisclaimer">⚠️ 本计划基于运动科学理论生成，仅供参考。如有特殊健康情况，请咨询专业医师或教练后再开始训练。</p>
       </div>
     </div>
   </footer>

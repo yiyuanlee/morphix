@@ -171,6 +171,24 @@ input { font-family: inherit; }
 }
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 30px rgba(0, 212, 255, 0.4); }
 
+.lang-toggle {
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+.lang-toggle:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  color: var(--accent-cyan);
+  background: rgba(0, 212, 255, 0.06);
+}
+
 /* ===========================
    Sections & Wrappers
    =========================== */
@@ -750,7 +768,8 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 .time-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.7rem;
+  padding: 0 10px;
+  font-size: 0.68rem;
   color: var(--text-muted);
 }
 

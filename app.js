@@ -8,8 +8,229 @@ let state = {
   dailyTime: 45,
   frequency: 4,
   goal: 'balance',
-  level: 'beginner'
+  level: 'beginner',
+  lang: 'zh'
 };
+
+// ── i18n Translations ─────────────────────────────────
+const i18n = {
+  zh: {
+    navFeatures: '功能', navCalc: '开始计划', navHow: '原理', navCta: '立即开始',
+    heroBadge: 'AI 驱动·个性化定制',
+    heroTitle1: '打造', heroTitle2: '专属你的', heroTitle3: '智能健身计划',
+    heroSub: '输入你的身体数据和目标，Morphix 将为你生成科学的训练计划、营养建议与时间规划，高效开启健康生活。',
+    heroCta: '立即定制我的计划', heroGhost: '了解原理',
+    statBmi: 'BMI 评估', statCustom: '定制方案', statPlan: '目标规划',
+    featuresTag: '核心功能', featuresTitle: '一切你需要的，都在这里',
+    f1Title: '智能计划生成', f1Desc: '根据你的数据自动生成每日训练安排，涵盖有氧、力量与柔韧性训练。',
+    f2Title: 'BMI 健康评估', f2Desc: '精准计算 BMI 并给出健康状况评估，了解你的当前体型与目标差距。',
+    f3Title: '目标时间预测', f3Desc: '基于你的训练强度和生理数据，科学预测达成目标体重所需时间。',
+    f4Title: '营养饮食建议', f4Desc: '根据目标提供每日卡路里摄入建议和蛋白质配比，助力高效塑形。',
+    f5Title: '个性化适配',   f5Desc: '考虑训练时间效率，计划适配健身新手到进阶用户的不同需求。',
+    f6Title: '科学依据支撑', f6Desc: '计划基于运动科学和营养学原理，安全、高效、可持续。',
+    howTag: '使用流程', howTitle: '三步开启健身之旅',
+    step1Title: '输入你的数据', step1Desc: '填写身高、体重、目标体重和每天可用于健身的时间。',
+    step2Title: 'AI 分析评估', step2Desc: '系统分析你的 BMI、体重差距，计算每周健康减重/增重目标。',
+    step3Title: '获取专属计划', step3Desc: '获得完整的训练计划、营养建议和达成目标的预计时间表。',
+    calcTag: '开始定制', calcTitle: '填写你的健身信息', calcSub: '所有数据仅在本地计算，完全保护你的隐私。',
+    formBasic: '基本信息',
+    labelHeight: '身高', labelAge: '年龄', labelCurrent: '当前体重', labelTarget: '目标体重',
+    labelGender: '性别', labelMale: '♂ 男性', labelFemale: '♀ 女性',
+    formTraining: '训练安排', labelDailyTime: '每天健身时间', labelFrequency: '健身频率（每周）',
+    labelGoal: '健身目标', goalLose: '🔥 减脂', goalBalance: '⚡ 塑形', goalGain: '💪 增肌',
+    labelLevel: '当前健身水平', levelBeginner: '新手', levelIntermediate: '进阶', levelAdvanced: '高级',
+    generateBtn: '生成我的专属计划',
+    placeholderMsg: '填写左侧信息后，<br/>你的专属计划将在这里呈现',
+    phHeight: '例如 175', phAge: '例如 25', phCurrent: '例如 75', phTarget: '例如 65',
+    timeUnit: (v) => `${v} 分钟 / 天`,
+    errHeight: '请输入有效身高（100–250 cm）', errAge: '请输入有效年龄（15–80 岁）',
+    errCurrent: '请输入有效当前体重（30–300 kg）', errTarget: '请输入有效目标体重（30–300 kg）',
+    errFix: '请修正以上信息后重试',
+    generatingPlan: '正在生成计划', regenerateBtn: '重新生成计划',
+    resultGenerated: '你的个性化健身计划已生成 ✨',
+    bmiLabel: 'BMI 指数',
+    bmiRange: (a, b) => `健康 BMI 范围：18.5–24.9 · 对应体重 ${a}–${b} kg`,
+    needChange: (d) => `需${d}体重`, dirReduce: '减', dirIncrease: '增', dirMaintain: '维持',
+    estTime: '预计达成时间', dailyCal: '每日目标热量 (kcal)', sessionBurn: '每次消耗热量 (kcal)',
+    weeklyPlan: (f, m) => `🏋️ 每周训练计划（${f} 天 / 周 · ${m} 分钟 / 天）`,
+    nutritionTarget: '🥗 每日营养目标',
+    proteinLabel: '💪 蛋白质', carbLabel: '⚡ 碳水化合物', fatLabel: '🥑 健康脂肪',
+    totalCal: '🔥 每日总热量', bmrLabel: '📊 基础代谢率 (BMR)', perDay: '/ 天',
+    tipsHeader: '💡 营养 & 生活建议',
+    resultWarning: '⚠️ 此计划基于运动科学算法生成，仅供参考。如有特殊健康状况，请在开始训练前咨询专业医师或私人教练。',
+    goalLabels: { lose: '减脂燃脂', balance: '塑形均衡', gain: '增肌增重' },
+    levelLabels: { beginner: '新手', intermediate: '进阶', advanced: '高级' },
+    levelSuffix: '方案',
+    dayNames: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+    restDay: '🛌 休息恢复', restDetail: '主动恢复：散步 / 拉伸 / 充足睡眠',
+    weeksUnit: (w) => `${w} 周`, goalReached: '已达标',
+    footerDisclaimer: '⚠️ 本计划基于运动科学理论生成，仅供参考。如有特殊健康情况，请咨询专业医师或教练后再开始训练。',
+  },
+  en: {
+    navFeatures: 'Features', navCalc: 'Get Started', navHow: 'How It Works', navCta: 'Start Now',
+    heroBadge: 'AI-Powered · Personalized',
+    heroTitle1: 'Build', heroTitle2: 'Your Perfect', heroTitle3: 'Fitness Plan',
+    heroSub: 'Enter your body metrics and goals — Morphix generates your personalized training schedule, nutrition targets, and goal timeline. All powered by science.',
+    heroCta: 'Customize My Plan', heroGhost: 'How It Works',
+    statBmi: 'BMI Analysis', statCustom: 'Custom Plan', statPlan: 'Goal Timeline',
+    featuresTag: 'Core Features', featuresTitle: 'Everything You Need, All In One Place',
+    f1Title: 'Smart Plan Generator', f1Desc: 'Auto-generates daily training schedules based on your data — covering cardio, strength, and flexibility.',
+    f2Title: 'BMI Health Assessment', f2Desc: 'Calculates your BMI precisely and provides a health evaluation with your target gap.',
+    f3Title: 'Goal Timeline Prediction', f3Desc: "Uses your training intensity and biometrics to scientifically predict when you'll hit your target.",
+    f4Title: 'Nutrition Guidance', f4Desc: 'Provides daily calorie targets and macro breakdowns tailored to your specific fitness goal.',
+    f5Title: 'Fully Personalized', f5Desc: 'Adapts plans for all levels — from beginners to advanced athletes — based on available workout time.',
+    f6Title: 'Science-Backed', f6Desc: 'Plans are grounded in exercise science and nutrition principles — safe, effective, and sustainable.',
+    howTag: 'How It Works', howTitle: '3 Steps to Your Fitness Journey',
+    step1Title: 'Enter Your Data', step1Desc: 'Fill in your height, weight, target weight, and daily available workout time.',
+    step2Title: 'AI Analysis', step2Desc: 'Morphix analyzes your BMI, weight gap, and calculates your weekly healthy change target.',
+    step3Title: 'Get Your Plan', step3Desc: 'Receive a complete training schedule, nutrition targets, and an estimated goal timeline.',
+    calcTag: 'Get Started', calcTitle: 'Enter Your Fitness Info', calcSub: 'All data is processed locally — your privacy is fully protected.',
+    formBasic: 'Basic Info',
+    labelHeight: 'Height', labelAge: 'Age', labelCurrent: 'Current Weight', labelTarget: 'Target Weight',
+    labelGender: 'Gender', labelMale: '♂ Male', labelFemale: '♀ Female',
+    formTraining: 'Training Setup', labelDailyTime: 'Daily Workout Duration', labelFrequency: 'Weekly Frequency',
+    labelGoal: 'Fitness Goal', goalLose: '🔥 Fat Loss', goalBalance: '⚡ Recomposition', goalGain: '💪 Muscle Gain',
+    labelLevel: 'Fitness Level', levelBeginner: 'Beginner', levelIntermediate: 'Intermediate', levelAdvanced: 'Advanced',
+    generateBtn: 'Generate My Plan',
+    placeholderMsg: 'Fill in your info on the left<br/>and your personalized plan will appear here.',
+    phHeight: 'e.g. 175', phAge: 'e.g. 25', phCurrent: 'e.g. 75', phTarget: 'e.g. 65',
+    timeUnit: (v) => `${v} min / day`,
+    errHeight: 'Please enter a valid height (100–250 cm)', errAge: 'Please enter a valid age (15–80)',
+    errCurrent: 'Please enter a valid current weight (30–300 kg)', errTarget: 'Please enter a valid target weight (30–300 kg)',
+    errFix: 'Please fix the errors above and try again.',
+    generatingPlan: 'Generating your plan', regenerateBtn: 'Regenerate Plan',
+    resultGenerated: 'Your personalized fitness plan is ready ✨',
+    bmiLabel: 'BMI Index',
+    bmiRange: (a, b) => `Healthy BMI: 18.5–24.9 · Weight range ${a}–${b} kg`,
+    needChange: (d) => `To ${d}`, dirReduce: 'Lose', dirIncrease: 'Gain', dirMaintain: 'Maintain',
+    estTime: 'Estimated Timeline', dailyCal: 'Daily Calorie Target (kcal)', sessionBurn: 'Per Session Burn (kcal)',
+    weeklyPlan: (f, m) => `🏋️ Weekly Training Schedule (${f} days/wk · ${m} min/day)`,
+    nutritionTarget: '🥗 Daily Nutrition Targets',
+    proteinLabel: '💪 Protein', carbLabel: '⚡ Carbohydrates', fatLabel: '🥑 Healthy Fats',
+    totalCal: '🔥 Total Daily Calories', bmrLabel: '📊 Basal Metabolic Rate (BMR)', perDay: '/ day',
+    tipsHeader: '💡 Nutrition & Lifestyle Tips',
+    resultWarning: '⚠️ This plan is generated based on exercise science algorithms for informational purposes only. Consult a licensed physician or certified trainer before starting.',
+    goalLabels: { lose: 'Fat Loss', balance: 'Recomposition', gain: 'Muscle Gain' },
+    levelLabels: { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' },
+    levelSuffix: 'Plan',
+    dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    restDay: '🛌 Rest & Recovery', restDetail: 'Active recovery: walking / stretching / quality sleep',
+    weeksUnit: (w) => `${w} wks`, goalReached: 'Already at goal!',
+    footerDisclaimer: '⚠️ Plans are generated based on exercise science principles for informational purposes only. Consult a licensed physician or certified trainer before starting any new program.',
+  }
+};
+
+// Translation helper
+const t  = (key)          => i18n[state.lang][key];
+const tf = (key, ...args) => { const v = t(key); return typeof v === 'function' ? v(...args) : v; };
+
+// ── Language Toggle ────────────────────────────────────
+function toggleLang() {
+  state.lang = state.lang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langLabel').textContent = state.lang === 'zh' ? 'EN' : '中';
+  document.documentElement.lang = state.lang === 'zh' ? 'zh-CN' : 'en';
+  applyTranslations();
+  // Re-render results if visible
+  if (document.getElementById('resultsContent').style.display !== 'none') {
+    const h = parseFloat(document.getElementById('height').value);
+    const a = parseFloat(document.getElementById('age').value);
+    const cw = parseFloat(document.getElementById('currentWeight').value);
+    const tw = parseFloat(document.getElementById('targetWeight').value);
+    if (h && a && cw && tw) renderResults(h, a, cw, tw);
+  }
+}
+
+function applyTranslations() {
+  const L = state.lang;
+  const T = i18n[L];
+
+  // Nav
+  setText('navFeatures', T.navFeatures);
+  setText('navCalc', T.navCalc);
+  setText('navHow', T.navHow);
+  setText('navCta', T.navCta);
+
+  // Hero
+  setText('heroBadgeText', T.heroBadge);
+  setText('heroTitle1', T.heroTitle1);
+  setText('heroTitle2', T.heroTitle2);
+  setText('heroTitle3', T.heroTitle3);
+  setText('heroSub', T.heroSub);
+  setText('heroCta', T.heroCta);
+  setText('heroGhost', T.heroGhost);
+  setText('statBmi', T.statBmi);
+  setText('statCustom', T.statCustom);
+  setText('statPlan', T.statPlan);
+
+  // Features
+  setText('featuresTag', T.featuresTag);
+  setText('featuresTitle', T.featuresTitle);
+  setText('f1Title', T.f1Title); setText('f1Desc', T.f1Desc);
+  setText('f2Title', T.f2Title); setText('f2Desc', T.f2Desc);
+  setText('f3Title', T.f3Title); setText('f3Desc', T.f3Desc);
+  setText('f4Title', T.f4Title); setText('f4Desc', T.f4Desc);
+  setText('f5Title', T.f5Title); setText('f5Desc', T.f5Desc);
+  setText('f6Title', T.f6Title); setText('f6Desc', T.f6Desc);
+
+  // How It Works
+  setText('howTag', T.howTag);
+  setText('howTitle', T.howTitle);
+  setText('step1Title', T.step1Title); setText('step1Desc', T.step1Desc);
+  setText('step2Title', T.step2Title); setText('step2Desc', T.step2Desc);
+  setText('step3Title', T.step3Title); setText('step3Desc', T.step3Desc);
+
+  // Calculator
+  setText('calcTag', T.calcTag);
+  setText('calcTitle', T.calcTitle);
+  setText('calcSub', T.calcSub);
+  setText('formBasicTitle', T.formBasic);
+  setText('labelHeight', T.labelHeight);
+  setText('labelAge', T.labelAge);
+  setText('labelCurrent', T.labelCurrent);
+  setText('labelTarget', T.labelTarget);
+  setText('labelGender', T.labelGender);
+  setText('genderMaleText', T.labelMale);
+  setText('genderFemaleText', T.labelFemale);
+  setText('formTrainingTitle', T.formTraining);
+  setText('labelDailyTime', T.labelDailyTime);
+  setText('labelFrequency', T.labelFrequency);
+  setText('labelGoal', T.labelGoal);
+  setText('goalLoseText', T.goalLose);
+  setText('goalBalanceText', T.goalBalance);
+  setText('goalGainText', T.goalGain);
+  setText('labelLevel', T.labelLevel);
+  setText('levelBeginnerText', T.levelBeginner);
+  setText('levelIntermediateText', T.levelIntermediate);
+  setText('levelAdvancedText', T.levelAdvanced);
+  setText('generateBtnText', T.generateBtn);
+
+  // Placeholders
+  setPlaceholder('height', T.phHeight);
+  setPlaceholder('age', T.phAge);
+  setPlaceholder('currentWeight', T.phCurrent);
+  setPlaceholder('targetWeight', T.phTarget);
+
+  // Time display
+  updateTimeDisplay(state.dailyTime);
+
+  // Results placeholder
+  const rp = document.getElementById('resultsPlaceholder');
+  const rpEl = document.getElementById('resultsPlaceholderMsg');
+  if (rpEl) rpEl.innerHTML = T.placeholderMsg;
+
+  // Footer
+  const fd = document.getElementById('footerDisclaimer');
+  if (fd) fd.textContent = T.footerDisclaimer;
+}
+
+function setText(id, txt) {
+  const el = document.getElementById(id);
+  if (el && txt !== undefined) el.textContent = txt;
+}
+function setPlaceholder(id, txt) {
+  const el = document.getElementById(id);
+  if (el && txt !== undefined) el.placeholder = txt;
+}
 
 // ── Selector Helpers ──────────────────────────────────
 function selectGender(g) {
@@ -34,8 +255,7 @@ function selectLevel(l) {
 
 function updateTimeDisplay(val) {
   state.dailyTime = parseInt(val);
-  document.getElementById('timeDisplay').textContent = `${val} 分钟 / 天`;
-  // Update slider fill
+  document.getElementById('timeDisplay').textContent = tf('timeUnit', val);
   const slider = document.getElementById('dailyTime');
   const min = parseInt(slider.min), max = parseInt(slider.max);
   const pct = ((val - min) / (max - min)) * 100;
@@ -45,10 +265,10 @@ function updateTimeDisplay(val) {
 // ── Validation ────────────────────────────────────────
 function validateInputs(height, age, current, target) {
   const errors = [];
-  if (!height || height < 100 || height > 250) errors.push('请输入有效身高（100–250 cm）');
-  if (!age || age < 15 || age > 80) errors.push('请输入有效年龄（15–80 岁）');
-  if (!current || current < 30 || current > 300) errors.push('请输入有效当前体重（30–300 kg）');
-  if (!target || target < 30 || target > 300) errors.push('请输入有效目标体重（30–300 kg）');
+  if (!height || height < 100 || height > 250) errors.push(t('errHeight'));
+  if (!age || age < 15 || age > 80)             errors.push(t('errAge'));
+  if (!current || current < 30 || current > 300) errors.push(t('errCurrent'));
+  if (!target || target < 30 || target > 300)    errors.push(t('errTarget'));
   return errors;
 }
 
@@ -59,46 +279,41 @@ function calcBMI(weight, height) {
 }
 
 function getBMICategory(bmi) {
-  if (bmi < 18.5) return { label: '偏轻', cls: 'underweight', pct: (bmi / 18.5) * 25 };
-  if (bmi < 25)   return { label: '正常', cls: 'normal',      pct: 25 + ((bmi - 18.5) / 6.5) * 30 };
-  if (bmi < 30)   return { label: '超重', cls: 'overweight',  pct: 55 + ((bmi - 25) / 5) * 25 };
-  return { label: '肥胖', cls: 'obese', pct: Math.min(100, 80 + ((bmi - 30) / 10) * 20) };
+  if (bmi < 18.5) return { label: state.lang === 'zh' ? '偏轻' : 'Underweight', cls: 'underweight', pct: (bmi / 18.5) * 25 };
+  if (bmi < 25)   return { label: state.lang === 'zh' ? '正常' : 'Normal',      cls: 'normal',      pct: 25 + ((bmi - 18.5) / 6.5) * 30 };
+  if (bmi < 30)   return { label: state.lang === 'zh' ? '超重' : 'Overweight',  cls: 'overweight',  pct: 55 + ((bmi - 25) / 5) * 25 };
+  return           { label: state.lang === 'zh' ? '肥胖' : 'Obese',             cls: 'obese',        pct: Math.min(100, 80 + ((bmi - 30) / 10) * 20) };
 }
 
-// BMR using Mifflin-St Jeor
 function calcBMR(weight, height, age, gender) {
   const base = 10 * weight + 6.25 * height - 5 * age;
   return gender === 'male' ? base + 5 : base - 161;
 }
 
-// TDEE based on activity
 function calcTDEE(bmr, daysPerWeek) {
   const factors = { 3: 1.375, 4: 1.55, 5: 1.55, 6: 1.725, 7: 1.9 };
   return Math.round(bmr * (factors[daysPerWeek] || 1.55));
 }
 
-// Calories burned estimate per session
 function calcCaloriesBurned(weight, minutes, goal) {
   const metMap = { lose: 8, balance: 6.5, gain: 5 };
   return Math.round((metMap[goal] * weight * 3.5 / 200) * minutes);
 }
 
-// Weekly deficit/surplus for losing/gaining ~0.5kg
 function targetCalories(tdee, mode) {
-  if (mode === 'lose')    return Math.max(tdee - 500, 1200);
-  if (mode === 'gain')    return tdee + 300;
+  if (mode === 'lose') return Math.max(tdee - 500, 1200);
+  if (mode === 'gain') return tdee + 300;
   return tdee;
 }
 
-// Estimate weeks
-function estimateWeeks(currentWeight, targetWeight, mode, daysPerWeek, dailyMinutes) {
+function estimateWeeks(currentWeight, targetWeight, mode) {
   const diff = Math.abs(targetWeight - currentWeight);
   if (diff < 0.5) return 0;
   const kgPerWeek = mode === 'lose' ? 0.4 : mode === 'gain' ? 0.25 : 0.3;
   return Math.ceil(diff / kgPerWeek);
 }
 
-// ── Plan Database ─────────────────────────────────────
+// ── Plan Database (Chinese) ────────────────────────────
 const PLAN_TEMPLATES = {
   beginner: {
     lose: [
@@ -171,6 +386,80 @@ const PLAN_TEMPLATES = {
   }
 };
 
+// ── Plan Database (English) ────────────────────────────
+const PLAN_TEMPLATES_EN = {
+  beginner: {
+    lose: [
+      { type: 'Cardio + Basic Strength', exercises: 'Brisk walk/cycling + Squats 3×12 + Lunges 3×10 + Push-ups 3×8' },
+      { type: 'Full-Body Cardio', exercises: 'Jump rope/jog + Plank 3×30s + Crunches 3×15' },
+      { type: 'Core + Cardio', exercises: 'HIIT (20min) + Core strengthening + Cool-down stretch' },
+      { type: 'Low-Intensity Cardio', exercises: 'Brisk walk + Yoga/Stretching (active recovery)' },
+    ],
+    balance: [
+      { type: 'Upper Body Strength', exercises: 'Dumbbell curls 3×12 + Push-ups 4×10 + Shoulder press 3×12 + Plank 3×30s' },
+      { type: 'Lower Body Strength', exercises: 'Squats 4×12 + Lunges 3×10 + Romanian deadlift 3×12 + Calf raises 3×15' },
+      { type: 'Cardio + Core', exercises: 'Jog 20min + Core training + Full-body stretch' },
+      { type: 'Full-Body Functional', exercises: 'Burpees 3×8 + Mountain climbers 3×20 + Jump squats 3×10 + Cool-down' },
+    ],
+    gain: [
+      { type: 'Upper Push', exercises: 'Dumbbell bench press 4×10 + Shoulder press 3×12 + Tricep dips 3×12 + Lateral raises 3×12' },
+      { type: 'Lower Body', exercises: 'Barbell squat 4×8 + Leg press 3×12 + Leg curl 3×12 + Calf raises 4×15' },
+      { type: 'Upper Pull', exercises: 'Dumbbell rows 4×10 + Bicep curls 3×12 + Face pulls 3×15' },
+      { type: 'Recovery + Stretch', exercises: 'Light cardio 15min + Foam rolling + Full-body stretch' },
+    ]
+  },
+  intermediate: {
+    lose: [
+      { type: 'HIIT + Strength', exercises: 'HIIT 25min + Squats 4×15 + Deadlifts 4×10 + Core work' },
+      { type: 'Push Day', exercises: 'Dumbbell bench 4×12 + Shoulder press 4×10 + Tricep pushdown 3×15 + HIIT 15min' },
+      { type: 'Pull Day', exercises: 'Dumbbell rows 4×12 + Reverse rows 3×12 + Curls 3×15 + Cardio 20min' },
+      { type: 'Legs + Cardio', exercises: 'Squats 5×10 + Lunges 4×12 + Hip thrusts 3×15 + Treadmill 20min' },
+      { type: 'Metabolic Training', exercises: 'Circuit (minimal rest): Burpees + Jump squats + Mountain climbers + Jump rope' },
+    ],
+    balance: [
+      { type: 'Chest + Triceps', exercises: 'Dumbbell bench 4×10 + Incline press 3×12 + Cable flyes 3×15 + Dips 3×12' },
+      { type: 'Back + Biceps', exercises: 'Pull-ups/assisted 4×8 + Dumbbell rows 4×10 + Hammer curls 3×12' },
+      { type: 'Leg Day', exercises: 'Squats 5×10 + Leg press 4×12 + Romanian deadlift 3×10 + Calf raises 4×15' },
+      { type: 'Shoulders + Core', exercises: 'Military press 4×10 + Lateral raises 3×15 + Front raises 3×12 + Core 20min' },
+      { type: 'Cardio + Recovery', exercises: 'Moderate cardio 30min + Foam rolling + Stretching 20min' },
+    ],
+    gain: [
+      { type: 'Chest + Triceps (Push)', exercises: 'Dumbbell bench 5×8 + Incline press 4×10 + Cable flyes 3×12 + Dips 4×10' },
+      { type: 'Back + Biceps (Pull)', exercises: 'Pull-ups 4×6-8 + Barbell rows 4×8 + Bicep curls 4×10 + Face pulls 3×15' },
+      { type: 'Legs + Glutes', exercises: 'Squats 5×8 + Front squats 3×8 + Romanian deadlift 4×8 + Leg press 3×10' },
+      { type: 'Shoulders + Core', exercises: 'Overhead press 4×8 + Lateral raises 4×12 + Rear flyes 3×12 + Core work' },
+      { type: 'Full-Body + Weak Points', exercises: 'Accessory work + Light cardio 15min + Full stretch' },
+    ]
+  },
+  advanced: {
+    lose: [
+      { type: 'Strength + HIIT Superset', exercises: 'Squat superset HIIT + Deadlifts + High-intensity intervals (4×4)' },
+      { type: 'Upper Strength + Cardio', exercises: 'Bench press 5×5 + Rows 5×5 + Press 4×6 + Cardio 20min' },
+      { type: 'Metabolic Complex', exercises: 'Push-pull-legs circuit (no rest) + Battle ropes/rowing 15min' },
+      { type: 'Leg Day + Core', exercises: 'Squats 6×5 + Front squats 4×5 + Good mornings 3×10 + Core 20min' },
+      { type: 'Performance + Cardio', exercises: 'Technical drills + Steady-state cardio 40min + Stretch' },
+      { type: 'Active Recovery', exercises: 'Yoga/swimming + Deep stretching + Contrast shower' },
+    ],
+    balance: [
+      { type: 'Push (Chest/Shoulders/Triceps)', exercises: 'Bench press 5×5 + Incline press 4×8 + Shoulder press 4×8 + Cable 3×12' },
+      { type: 'Pull (Back/Biceps)', exercises: 'Barbell deadlift 4×5 + Pull-ups 4×8 + Rows 4×8 + Curls 3×10' },
+      { type: 'Legs (Quads/Hamstrings)', exercises: 'Squats 5×5 + Front squats 3×5 + Bulgarian split squats 3×8 + Leg curls 3×10' },
+      { type: 'Push 2 (Accessory)', exercises: 'Incline flyes 4×12 + Cable pushdown 3×15 + Lateral raises 4×12 + Front raises 3×12' },
+      { type: 'Pull 2 + Glutes', exercises: 'Wide-grip pull-ups 3×8 + Single-arm rows 3×10 + Hip thrusts 4×10 + Curls 3×12' },
+      { type: 'Athletic Performance + Recovery', exercises: 'Power training (jumps/throws) + Light cardio + Full stretch' },
+    ],
+    gain: [
+      { type: 'Push (Heavy)', exercises: 'Bench press 6×4-5 + Incline dumbbell press 4×6-8 + Tricep dips 4×8-10' },
+      { type: 'Pull (Heavy)', exercises: 'Barbell deadlift 5×4-5 + Pull-ups 5×6-8 + Barbell rows 4×6-8' },
+      { type: 'Legs (Heavy)', exercises: 'Squats 6×4-5 + Front squats 3×5 + Romanian deadlift 4×6 + Calf raises 5×12' },
+      { type: 'Push (Moderate Accessory)', exercises: 'Dumbbell press 4×10 + Cable flyes 4×12 + Lateral raises 4×15 + Tricep complex' },
+      { type: 'Pull (Moderate Accessory)', exercises: 'Single-arm rows 4×10 + Rear flyes 4×12 + Bicep complex 4×10' },
+      { type: 'Legs 2 + Recovery', exercises: 'Leg press 4×10 + Leg curls 4×10 + Calf raises 5×12 + Full stretch' },
+    ]
+  }
+};
+
+// ── Nutrition Tips (Chinese) ──────────────────────────
 const NUTRITION_TIPS = {
   lose: [
     '保持蛋白质摄入量在体重(kg) × 1.6g 以上，防止肌肉流失',
@@ -197,6 +486,33 @@ const NUTRITION_TIPS = {
   ]
 };
 
+// ── Nutrition Tips (English) ─────────────────────────
+const NUTRITION_TIPS_EN = {
+  lose: [
+    'Keep protein intake at bodyweight (kg) × 1.6g or more to preserve muscle mass',
+    'Avoid refined carbs (white bread, sugary drinks) — choose whole grains and vegetables',
+    'Each meal should include protein + vegetables + healthy fats',
+    'Stop eating 2–3 hours before bed to support fat metabolism',
+    'Drink 2–3L of water daily — hydration helps control appetite',
+    'Consider intermittent fasting (16:8) to accelerate fat loss'
+  ],
+  balance: [
+    'Daily protein target: bodyweight (kg) × 1.8g to support body recomposition',
+    'Eat carbs 1–1.5 hours before training for sustained energy',
+    'Consume protein + carbs within 30 minutes after training for recovery',
+    'Minimize processed foods and increase natural, whole foods',
+    'Supplement with Omega-3 (salmon, walnuts) to reduce inflammation'
+  ],
+  gain: [
+    'Aim for a 250–500 kcal daily surplus for clean muscle gain',
+    'Protein needs: bodyweight (kg) × 2–2.2g to meet muscle protein synthesis demands',
+    'Carbohydrates are your training fuel — do not cut them too low',
+    'Post-workout: fast protein (whey) + high-GI carbs for optimal recovery',
+    'Get 8+ hours of quality sleep every night to maximize growth hormone release',
+    'Consider creatine (3–5g/day) — scientifically proven to enhance strength and muscle'
+  ]
+};
+
 // ── Generate Plan ─────────────────────────────────────
 function generatePlan() {
   const height = parseFloat(document.getElementById('height').value);
@@ -210,32 +526,28 @@ function generatePlan() {
     return;
   }
 
-  // Loading animation
   const btn = document.getElementById('generateBtn');
   btn.classList.add('loading');
   btn.disabled = true;
-  btn.querySelector('.btn-text').textContent = '正在生成计划';
+  document.getElementById('generateBtnText').textContent = t('generatingPlan');
 
   setTimeout(() => {
     btn.classList.remove('loading');
     btn.disabled = false;
-    btn.querySelector('.btn-text').textContent = '重新生成计划';
-
+    document.getElementById('generateBtnText').textContent = t('regenerateBtn');
     renderResults(height, age, currentWeight, targetWeight);
   }, 1200);
 }
 
 function showError(errors) {
-  const panel = document.getElementById('resultsPanel');
   const placeholder = document.getElementById('resultsPlaceholder');
   const content = document.getElementById('resultsContent');
-
   content.style.display = 'none';
   placeholder.style.display = 'flex';
   placeholder.innerHTML = `
     <div class="placeholder-icon">⚠️</div>
     <p style="color: #ef4444;">${errors.join('<br/>')}</p>
-    <p style="font-size:0.8rem; margin-top:8px;">请修正以上信息后重试</p>
+    <p style="font-size:0.8rem; margin-top:8px;">${t('errFix')}</p>
   `;
 }
 
@@ -251,116 +563,110 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const carbG = Math.round((targetCal * 0.45) / 4);
   const fatG = Math.round((targetCal * 0.25) / 9);
   const calBurned = calcCaloriesBurned(currentWeight, dailyTime, goal);
-  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal, frequency, dailyTime);
+  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal);
 
   const weightDiff = (targetWeight - currentWeight).toFixed(1);
-  const direction = targetWeight < currentWeight ? '减' : targetWeight > currentWeight ? '增' : '维持';
+  const dir = targetWeight < currentWeight ? t('dirReduce') : targetWeight > currentWeight ? t('dirIncrease') : t('dirMaintain');
 
-  // Select right plan
-  const planDays = PLAN_TEMPLATES[level][goal];
+  const isEN = state.lang === 'en';
+  const templates = isEN ? PLAN_TEMPLATES_EN : PLAN_TEMPLATES;
+  const tipsDB = isEN ? NUTRITION_TIPS_EN : NUTRITION_TIPS;
+
+  const planDays = templates[level][goal];
   const scheduleDays = buildSchedule(planDays, frequency);
+  const tips = tipsDB[goal];
 
-  // Nutrition tips
-  const tips = NUTRITION_TIPS[goal];
-
-  // Ideal BMI weight range
   const heightM = height / 100;
   const idealMin = (18.5 * heightM * heightM).toFixed(1);
   const idealMax = (24.9 * heightM * heightM).toFixed(1);
 
+  const goalName = t('goalLabels')[goal] || goal;
+  const levelName = t('levelLabels')[level] || level;
+
   const html = `
     <div class="result-header">
-      <div class="result-greeting">你的个性化健身计划已生成 ✨</div>
-      <div class="result-title">${getGoalLabel(goal)} · ${getLevelLabel(level)} 方案</div>
+      <div class="result-greeting">${t('resultGenerated')}</div>
+      <div class="result-title">${goalName} · ${levelName} ${t('levelSuffix')}</div>
     </div>
 
-    <!-- BMI Card -->
     <div class="bmi-card">
       <div class="bmi-row">
-        <span class="bmi-label">BMI 指数</span>
+        <span class="bmi-label">${t('bmiLabel')}</span>
         <span class="bmi-value bmi-${bmiCat.cls}">${bmi}</span>
         <span class="bmi-status status-${bmiCat.cls}">${bmiCat.label}</span>
       </div>
       <div style="font-size:0.72rem; color: var(--text-muted); margin-bottom:8px;">
-        健康 BMI 范围：18.5–24.9 · 对应体重 ${idealMin}–${idealMax} kg
+        ${tf('bmiRange', idealMin, idealMax)}
       </div>
       <div class="bmi-bar-wrap">
         <div class="bmi-bar" id="bmiBar" style="width: 0%; background: var(--gradient-primary);"></div>
       </div>
     </div>
 
-    <!-- Key Metrics -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-icon">🎯</div>
         <div class="metric-value">${Math.abs(weightDiff)} kg</div>
-        <div class="metric-label">需${direction}体重</div>
+        <div class="metric-label">${tf('needChange', dir)}</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon">📅</div>
-        <div class="metric-value">${weeks > 0 ? weeks + ' 周' : '已达标'}</div>
-        <div class="metric-label">预计达成时间</div>
+        <div class="metric-value">${weeks > 0 ? tf('weeksUnit', weeks) : t('goalReached')}</div>
+        <div class="metric-label">${t('estTime')}</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon">🔥</div>
         <div class="metric-value">${targetCal}</div>
-        <div class="metric-label">每日目标热量 (kcal)</div>
+        <div class="metric-label">${t('dailyCal')}</div>
       </div>
       <div class="metric-card">
         <div class="metric-icon">⚡</div>
         <div class="metric-value">${calBurned}</div>
-        <div class="metric-label">每次消耗热量 (kcal)</div>
+        <div class="metric-label">${t('sessionBurn')}</div>
       </div>
     </div>
 
-    <!-- Training Schedule -->
     <div class="plan-block">
-      <div class="plan-block-header">🏋️ 每周训练计划（${frequency} 天 / 周 · ${dailyTime} 分钟 / 天）</div>
-      <div class="plan-block-body">
-        ${scheduleDays}
-      </div>
+      <div class="plan-block-header">${tf('weeklyPlan', frequency, dailyTime)}</div>
+      <div class="plan-block-body">${scheduleDays}</div>
     </div>
 
-    <!-- Nutrition -->
     <div class="plan-block">
-      <div class="plan-block-header">🥗 每日营养目标</div>
+      <div class="plan-block-header">${t('nutritionTarget')}</div>
       <div class="plan-block-body">
         <div class="nutrition-item">
-          <span class="nutrition-name">💪 蛋白质</span>
-          <span class="nutrition-val">${proteinG}g / 天</span>
+          <span class="nutrition-name">${t('proteinLabel')}</span>
+          <span class="nutrition-val">${proteinG}g ${t('perDay')}</span>
         </div>
         <div class="nutrition-item">
-          <span class="nutrition-name">⚡ 碳水化合物</span>
-          <span class="nutrition-val">${carbG}g / 天</span>
+          <span class="nutrition-name">${t('carbLabel')}</span>
+          <span class="nutrition-val">${carbG}g ${t('perDay')}</span>
         </div>
         <div class="nutrition-item">
-          <span class="nutrition-name">🥑 健康脂肪</span>
-          <span class="nutrition-val">${fatG}g / 天</span>
+          <span class="nutrition-name">${t('fatLabel')}</span>
+          <span class="nutrition-val">${fatG}g ${t('perDay')}</span>
         </div>
         <div class="nutrition-item">
-          <span class="nutrition-name">🔥 每日总热量</span>
+          <span class="nutrition-name">${t('totalCal')}</span>
           <span class="nutrition-val">${targetCal} kcal</span>
         </div>
         <div class="nutrition-item">
-          <span class="nutrition-name">📊 基础代谢率 (BMR)</span>
+          <span class="nutrition-name">${t('bmrLabel')}</span>
           <span class="nutrition-val">${Math.round(bmr)} kcal</span>
         </div>
       </div>
     </div>
 
-    <!-- Tips -->
     <div class="plan-block">
-      <div class="plan-block-header">💡 营养 & 生活建议</div>
+      <div class="plan-block-header">${t('tipsHeader')}</div>
       <div class="plan-block-body">
         <ul class="tips-list">
-          ${tips.map(t => `<li>${t}</li>`).join('')}
+          ${tips.map(tip => `<li>${tip}</li>`).join('')}
         </ul>
       </div>
     </div>
 
-    <div class="result-warning">
-      ⚠️ 此计划基于运动科学算法生成，仅供参考。如有特殊健康状况，请在开始训练前咨询专业医师或私人教练。
-    </div>
+    <div class="result-warning">${t('resultWarning')}</div>
   `;
 
   const placeholder = document.getElementById('resultsPlaceholder');
@@ -372,29 +678,23 @@ function renderResults(height, age, currentWeight, targetWeight) {
   content.style.display = 'flex';
   content.innerHTML = html;
 
-  // Animate BMI bar
   setTimeout(() => {
     const bar = document.getElementById('bmiBar');
     if (bar) bar.style.width = `${Math.min(bmiCat.pct, 100)}%`;
   }, 200);
 
-  // Scroll to results on mobile
   if (window.innerWidth <= 1024) {
     document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
 function buildSchedule(planDays, frequency) {
-  const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  const dayNames = t('dayNames');
   const restDays = 7 - frequency;
-
-  // Distribute rest days evenly
   const schedule = [];
-  let trainingIdx = 0;
-  let restCount = 0;
+  let trainingIdx = 0, restCount = 0;
 
   for (let i = 0; i < 7; i++) {
-    const remaining = 7 - i;
     const trainingRemaining = frequency - trainingIdx;
     const restRemaining = restDays - restCount;
 
@@ -405,7 +705,6 @@ function buildSchedule(planDays, frequency) {
       schedule.push({ day: dayNames[i], plan: planDays[trainingIdx % planDays.length], rest: false });
       trainingIdx++;
     } else {
-      // Alternate to spread rest days
       if (trainingIdx > 0 && trainingIdx % 2 === 0 && restCount < restDays) {
         schedule.push({ day: dayNames[i], rest: true });
         restCount++;
@@ -416,47 +715,31 @@ function buildSchedule(planDays, frequency) {
     }
   }
 
-  return schedule.map((s, idx) => `
+  return schedule.map(s => `
     <div class="schedule-day">
       <div class="day-badge">${s.day}</div>
       <div class="day-info">
-        <div class="day-title">${s.rest ? '🛌 休息恢复' : `🏃 ${s.plan.type}`}</div>
-        <div class="day-detail">${s.rest ? '主动恢复：散步 / 拉伸 / 充足睡眠' : s.plan.exercises}</div>
+        <div class="day-title">${s.rest ? t('restDay') : `🏃 ${s.plan.type}`}</div>
+        <div class="day-detail">${s.rest ? t('restDetail') : s.plan.exercises}</div>
       </div>
     </div>
   `).join('');
 }
 
-function getGoalLabel(g) {
-  return { lose: '减脂燃脂', balance: '塑形均衡', gain: '增肌增重' }[g] || '';
-}
-function getLevelLabel(l) {
-  return { beginner: '新手', intermediate: '进阶', advanced: '高级' }[l] || '';
-}
-
 // ── Navbar Scroll Effect ───────────────────────────────
 window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+  if (window.scrollY > 50) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
 });
 
 // ── Intersection Observer for Animations ──────────────
 const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
-
-// Stagger feature cards
-document.querySelectorAll('.feature-card').forEach((card, i) => {
+document.querySelectorAll('.feature-card').forEach((card) => {
   const delay = parseInt(card.dataset.delay || 0);
   card.style.animationDelay = `${delay}ms`;
   io.observe(card);
@@ -467,23 +750,16 @@ document.querySelectorAll('.feature-card').forEach((card, i) => {
   const canvas = document.getElementById('particleCanvas');
   const ctx = canvas.getContext('2d');
   let particles = [];
-  let animFrame;
 
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize);
   resize();
 
   function createParticle() {
     return {
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2 + 0.5,
-      alpha: Math.random() * 0.5 + 0.1,
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+      size: Math.random() * 2 + 0.5, alpha: Math.random() * 0.5 + 0.1,
       color: Math.random() > 0.5 ? '0, 212, 255' : '168, 85, 247'
     };
   }
@@ -492,53 +768,42 @@ document.querySelectorAll('.feature-card').forEach((card, i) => {
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
+      p.x += p.vx; p.y += p.vy;
       if (p.x < 0) p.x = canvas.width;
       if (p.x > canvas.width) p.x = 0;
       if (p.y < 0) p.y = canvas.height;
       if (p.y > canvas.height) p.y = 0;
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
       ctx.fill();
     });
-
-    // Draw connections
     particles.forEach((p, i) => {
       particles.slice(i + 1).forEach(q => {
         const dx = p.x - q.x, dy = p.y - q.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
           ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
+          ctx.lineWidth = 0.5; ctx.stroke();
         }
       });
     });
-
-    animFrame = requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
   animate();
 })();
 
-// ── Init Slider Fill ───────────────────────────────────
+// ── Init ───────────────────────────────────────────────
 updateTimeDisplay(45);
 
-// ── Smooth scroll for nav links ───────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if (target) {
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      const top = target.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   });
