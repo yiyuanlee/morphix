@@ -1106,6 +1106,108 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   text-align: center;
 }
 
+/* Export PDF Button */
+.export-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  background: rgba(0, 212, 255, 0.06);
+  color: var(--accent-cyan);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-display);
+}
+.export-btn:hover {
+  background: rgba(0, 212, 255, 0.12);
+  border-color: rgba(0, 212, 255, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.2);
+}
+.export-btn:active { transform: translateY(0); }
+
+/* Print Header (hidden normally) */
+.print-header { display: none; }
+
+/* ===========================
+   Print / PDF Export Styles
+   =========================== */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  body { background: white !important; color: #111 !important; }
+
+  /* Hide everything except results */
+  .bg-animated, .navbar, .hero, .features, .how-it-works,
+  .calculator-section .section-header, .calc-form,
+  .results-placeholder, .export-btn, footer { display: none !important; }
+
+  .calculator-section { padding: 24px !important; max-width: 100% !important; margin: 0 !important; }
+  .calc-wrapper { display: block !important; }
+  .results-panel {
+    border: none !important; padding: 0 !important; background: white !important;
+    min-height: unset !important; position: static !important;
+    align-items: flex-start !important; box-shadow: none !important;
+  }
+  .results-content { gap: 14px !important; }
+
+  /* Print header */
+  .print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 2px solid #6C63FF;
+  }
+  .print-logo { font-size: 1.3rem; font-weight: 800; color: #6C63FF; letter-spacing: -0.02em; }
+  .print-meta { text-align: right; font-size: 0.72rem; color: #888; line-height: 1.6; }
+
+  /* Result header */
+  .result-header { padding-bottom: 12px !important; border-bottom-color: #eee !important; }
+  .result-greeting { color: #888 !important; }
+  .result-title { -webkit-text-fill-color: #6C63FF !important; color: #6C63FF !important; background: none !important; }
+
+  /* BMI */
+  .bmi-card { background: #f8f9fa !important; border: 1px solid #e0e0e0 !important; break-inside: avoid; }
+  .bmi-label { color: #555 !important; }
+  .bmi-value { -webkit-text-fill-color: unset !important; }
+  .bmi-bar-wrap { background: #e0e0e0 !important; }
+  .bmi-bar { background: linear-gradient(90deg, #6C63FF, #a855f7) !important; }
+
+  /* Metrics */
+  .metrics-grid { break-inside: avoid; }
+  .metric-card { background: #f8f9fa !important; border: 1px solid #e0e0e0 !important; }
+  .metric-value { -webkit-text-fill-color: #6C63FF !important; color: #6C63FF !important; background: none !important; }
+  .metric-label { color: #666 !important; }
+
+  /* Plan blocks */
+  .plan-block { background: #f8f9fa !important; border: 1px solid #e0e0e0 !important; break-inside: avoid; margin-bottom: 12px !important; }
+  .plan-block-header { background: #ede9ff !important; color: #111 !important; border-bottom: 1px solid #ddd !important; }
+  .schedule-day { border-bottom-color: #eee !important; }
+  .day-badge { background: #ede9ff !important; border-color: #c4b5fd !important; color: #7c3aed !important; }
+  .day-title { color: #111 !important; }
+  .day-detail { color: #555 !important; }
+
+  /* Nutrition */
+  .nutrition-item { border-bottom-color: #eee !important; }
+  .nutrition-name { color: #444 !important; }
+  .nutrition-val { -webkit-text-fill-color: #6C63FF !important; color: #6C63FF !important; background: none !important; }
+
+  /* Tips */
+  .tips-list li { color: #444 !important; }
+  .tips-list li::before { color: #6C63FF !important; }
+
+  /* Warning */
+  .result-warning { background: #fff8f8 !important; border-color: #fecdd3 !important; color: #be123c !important; }
+}
+
 /* ===========================
    Footer
    =========================== */
