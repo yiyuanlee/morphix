@@ -1,105 +1,129 @@
-# 🏋️ FitAI · 智能健身计划定制
+<div align="center">
 
-> 根据你的身高、体重和目标，AI 驱动的个性化健身计划生成器
+# ⚡ MORPHIX
 
-![FitAI Preview](./preview.png)
+### *Transform Your Body. Powered by Science.*
 
-## ✨ 功能特点
+[![GitHub Pages](https://img.shields.io/badge/Live%20Demo-yiyuanlee.github.io%2Fmorphix-6C63FF?style=for-the-badge&logo=github)](https://yiyuanlee.github.io/morphix)
+[![License](https://img.shields.io/badge/License-MIT-00D4FF?style=for-the-badge)](LICENSE)
+[![HTML5](https://img.shields.io/badge/HTML5-Pure-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://github.com/yiyuanlee/morphix)
+[![No Dependencies](https://img.shields.io/badge/Dependencies-Zero-00FF88?style=for-the-badge)](https://github.com/yiyuanlee/morphix)
 
-| 功能 | 描述 |
-|------|------|
-| 📏 BMI 评估 | 精准计算 BMI，提供健康范围参考 |
-| 🏋️ 训练计划 | 7天详细训练安排（新手/进阶/高级） |
-| 🥗 营养建议 | 每日热量、蛋白质、碳水、脂肪目标 |
-| 📅 时间规划 | 基于科学算法预测达成目标所需周数 |
-| 🔥 卡路里计算 | 基础代谢率（BMR）与每日消耗估算 |
-| 🎯 多目标支持 | 减脂 / 塑形 / 增肌三种目标模式 |
+> **Morphix** is an AI-driven fitness planning engine that generates fully personalized workout schedules and nutrition targets — based on your body metrics, goals, and lifestyle. No login. No subscription. Just results.
 
-## 🚀 快速开始
-
-### 在线使用（GitHub Pages）
-
-部署后直接访问：`https://[你的用户名].github.io/fitness-app`
-
-### 本地运行
-
-```bash
-# 克隆仓库
-git clone https://github.com/[你的用户名]/fitness-app.git
-cd fitness-app
-
-# 使用任意 HTTP 服务器（无需安装依赖！）
-# 方法一：VS Code 的 Live Server 插件
-# 方法二：Python
-python -m http.server 8080
-
-# 然后访问 http://localhost:8080
-```
-
-## 📖 使用说明
-
-1. **填写基本信息**：身高、年龄、当前体重、目标体重
-2. **选择性别**：影响基础代谢率计算
-3. **设置训练安排**：每天健身时间（15-120分钟）、每周频率
-4. **选择目标**：减脂 🔥 / 塑形 ⚡ / 增肌 💪
-5. **选择当前水平**：新手 / 进阶 / 高级
-6. **点击生成计划** → 获取专属方案！
-
-## 🧮 计算原理
-
-### BMI 计算
-```
-BMI = 体重(kg) / 身高(m)²
-```
-
-### 基础代谢率（Mifflin-St Jeor 公式）
-```
-男性：BMR = 10×体重 + 6.25×身高 - 5×年龄 + 5
-女性：BMR = 10×体重 + 6.25×身高 - 5×年龄 - 161
-```
-
-### 每日总能耗（TDEE）
-```
-TDEE = BMR × 活动系数（1.375~1.9）
-```
-
-### 热量目标
-- **减脂**：TDEE - 500 kcal（约每周减重 0.4kg）
-- **增肌**：TDEE + 300 kcal（干净增肌）
-- **塑形**：维持 TDEE
-
-## 🛠️ 技术栈
-
-- **纯 HTML5 + CSS3 + Vanilla JavaScript**
-- 无需任何依赖或构建工具
-- 响应式设计，移动端友好
-- 粒子动画背景（Canvas API）
-- Google Fonts：Inter + Outfit
-
-## 🌐 部署到 GitHub Pages
-
-```bash
-# 1. 在 GitHub 创建新仓库 fitness-app
-# 2. 推送代码
-git init
-git add .
-git commit -m "🚀 Initial commit: FitAI fitness planner"
-git branch -M main
-git remote add origin https://github.com/[你的用户名]/fitness-app.git
-git push -u origin main
-
-# 3. 在 GitHub 仓库设置中启用 GitHub Pages
-#    Settings → Pages → Source: Deploy from branch → main / (root)
-```
-
-## ⚠️ 免责声明
-
-本应用生成的健身计划基于运动科学理论，仅供参考。如有特殊健康状况、慢性病或伤病史，请在开始任何训练计划前咨询专业医师或持证私人教练。
-
-## 📄 许可证
-
-MIT License — 自由使用、修改和分发。
+</div>
 
 ---
 
-**Made with ❤️ by FitAI**
+## 🔥 Features
+
+| Module | Description |
+|--------|-------------|
+| 📊 **BMI Analysis** | Instant body mass index calculation with health range indicators |
+| 🏋️ **7-Day Training Plan** | Adaptive routines across Beginner / Intermediate / Advanced levels |
+| 🥗 **Macro Nutrition** | Daily calorie, protein, carb & fat targets calibrated to your goal |
+| ⏱️ **Goal Timeline** | Science-backed prediction of weeks needed to reach target weight |
+| 🔥 **TDEE Calculator** | Basal metabolic rate + activity factor energy expenditure model |
+| 🎯 **3 Goal Modes** | Fat Loss · Recomposition · Muscle Gain — each with distinct protocols |
+| 🌐 **Zero Setup** | Pure HTML/CSS/JS — runs anywhere, no install required |
+
+---
+
+## 🚀 Live Demo
+
+👉 **[https://yiyuanlee.github.io/morphix](https://yiyuanlee.github.io/morphix)**
+
+---
+
+## 🛠️ Run Locally
+
+```bash
+# Clone the repo
+git clone https://github.com/yiyuanlee/morphix.git
+cd morphix
+
+# Option A: Python (no install needed)
+python -m http.server 8080
+
+# Option B: Node.js
+npx serve .
+
+# Then open → http://localhost:8080
+```
+
+---
+
+## 🧮 Science Behind Morphix
+
+### Body Mass Index
+```
+BMI = weight(kg) / height(m)²
+```
+
+### Basal Metabolic Rate — Mifflin-St Jeor Equation
+```
+Male:   BMR = 10×weight + 6.25×height − 5×age + 5
+Female: BMR = 10×weight + 6.25×height − 5×age − 161
+```
+
+### Total Daily Energy Expenditure
+```
+TDEE = BMR × Activity Factor  (range: 1.375 – 1.9)
+```
+
+### Caloric Targets by Goal
+| Goal | Formula | Weekly Change |
+|------|---------|---------------|
+| 🔥 Fat Loss | TDEE − 500 kcal | ~−0.4 kg/week |
+| ⚡ Recomposition | TDEE | Maintain weight |
+| 💪 Muscle Gain | TDEE + 300 kcal | Lean bulk |
+
+---
+
+## 🧱 Tech Stack
+
+```
+Morphix is intentionally lean — no frameworks, no build tools.
+```
+
+- **Structure**: HTML5 Semantic Markup
+- **Styling**: Vanilla CSS3 — glassmorphism, gradients, animations
+- **Logic**: Vanilla JavaScript ES6+
+- **Visual FX**: Canvas API particle system
+- **Typography**: Google Fonts — Inter + Outfit
+- **Hosting**: GitHub Pages (static, free, fast)
+
+---
+
+## 📁 Project Structure
+
+```
+morphix/
+├── index.html      # App entry point
+├── style.css       # Full design system & animations
+├── app.js          # Core logic — BMR, TDEE, plan generator
+├── favicon.svg     # Vector app icon
+└── README.md       # You are here
+```
+
+---
+
+## ⚠️ Disclaimer
+
+Morphix generates fitness plans based on established exercise science principles for **informational purposes only**. Always consult a licensed physician or certified personal trainer before starting any new training program, especially if you have pre-existing health conditions.
+
+---
+
+## 📄 License
+
+[MIT](LICENSE) — Free to use, modify, and distribute.
+
+---
+
+<div align="center">
+
+**Built with ⚡ by [yiyuanlee](https://github.com/yiyuanlee)**
+
+*Morphix — Because transformation starts with a plan.*
+
+</div>
