@@ -1136,6 +1136,101 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   pointer-events: none;
 }
 
+/* Share Button */
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.06);
+  color: var(--accent-purple);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-display);
+  margin-top: 16px;
+}
+.share-btn:hover {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2);
+}
+.share-btn:active { transform: translateY(0); }
+
+/* Live Preview */
+.live-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.preview-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.4s ease-out;
+}
+.preview-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.preview-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.preview-sub {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.preview-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Clear Data Button */
+.clear-data-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px auto 0;
+}
+.clear-data-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
 /* Print Header (hidden normally) */
 .print-header { display: none; }
 
