@@ -29,9 +29,12 @@
 | 🔥 **TDEE Calculator / 能量消耗** | BMR + activity factor × level multiplier model / 基础代谢 × 活动系数 × 水平系数模型 |
 | 🎯 **3 Goal Modes / 三大模式** | Fat Loss · Recomposition · Muscle Gain / 减脂 · 塑形 · 增肌 |
 | 💪 **Level-Aware Engine / 水平感知引擎** | Level deeply affects TDEE, calories, protein, MET, progress rate / 健身水平深度影响所有计算参数 |
+| ⚡ **Live Preview / 实时交互预览** | Real-time BMI, TDEE, and calorie estimation as you type / 边填边算，实时预览 BMI、代谢及目标建议 |
+| 💾 **Data Persistence / 本地缓存** | Auto-saves your metrics and preferences to LocalStorage / 自动保存个人数据与偏好，即使刷新也不丢失 |
+| 🔗 **Shareable Links / 链接分享** | Share your customized plan settings via deep-link URLs / 支持 URL 参数分享，一键同步健身方案 |
 | 📄 **PDF Export / PDF 导出** | One-click download as a styled PDF / 一键下载精美排版的 PDF 计划 |
 | 🌐 **Bilingual / 双语支持** | Full Chinese / English with one-click toggle / 中英文一键切换 |
-| ⚡ **Zero Setup / 零配置** | Pure HTML/CSS/JS — runs anywhere / 纯前端，无需安装，随处运行 |
+| 🚀 **Zero Setup / 零配置** | Pure HTML/CSS/JS — runs anywhere / 纯前端，无需安装，随处运行 |
 
 ---
 
