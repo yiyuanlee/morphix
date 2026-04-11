@@ -775,28 +775,31 @@ function renderResults(height, age, currentWeight, targetWeight) {
 
 function buildSchedule(planDays, frequency) {
   const dayNames = t('dayNames');
-  const restDays = 7 - frequency;
   const schedule = [];
-  let trainingIdx = 0, restCount = 0;
+
+  // Optimal training day indices — maximally spread rest days across the week
+  // 3 days: Mon/Wed/Fri  →  T R T R T R R
+  // 4 days: Mon/Tue/Thu/Sat  →  T T R T R T R
+  // 5 days: Mon/Tue/Thu/Fri/Sun  →  T T R T T R T
+  // 6 days: Mon–Sat  →  T T T T T T R
+  // 7 days: Every day  →  T T T T T T T
+  const OPTIMAL = {
+    3: [0, 2, 4],
+    4: [0, 1, 3, 5],
+    5: [0, 1, 3, 4, 6],
+    6: [0, 1, 2, 3, 4, 5],
+    7: [0, 1, 2, 3, 4, 5, 6]
+  };
+
+  const trainingDays = new Set(OPTIMAL[frequency] || OPTIMAL[4]);
+  let trainingIdx = 0;
 
   for (let i = 0; i < 7; i++) {
-    const trainingRemaining = frequency - trainingIdx;
-    const restRemaining = restDays - restCount;
-
-    if (trainingRemaining === 0) {
-      schedule.push({ day: dayNames[i], rest: true });
-      restCount++;
-    } else if (restRemaining === 0) {
+    if (trainingDays.has(i)) {
       schedule.push({ day: dayNames[i], plan: planDays[trainingIdx % planDays.length], rest: false });
       trainingIdx++;
     } else {
-      if (trainingIdx > 0 && trainingIdx % 2 === 0 && restCount < restDays) {
-        schedule.push({ day: dayNames[i], rest: true });
-        restCount++;
-      } else {
-        schedule.push({ day: dayNames[i], plan: planDays[trainingIdx % planDays.length], rest: false });
-        trainingIdx++;
-      }
+      schedule.push({ day: dayNames[i], rest: true });
     }
   }
 
