@@ -23,7 +23,7 @@
 | Module / 模块 | Description / 描述 |
 |--------|-------------|
 | 📊 **BMI Analysis / BMI 健康评估** | Instant BMI calculation with health range indicators / 精准 BMI 计算与健康范围指示 |
-| 🏋️ **7-Day Training Plan / 每周训练计划** | Adaptive routines for Beginner · Intermediate · Advanced / 适配新手·进阶·高级的差异化训练方案 |
+| 🏋️ **7-Day Training Plan / 每周训练计划** | Adaptive routines for Beginner · Intermediate · Advanced with optimally spaced rest days / 适配新手·进阶·高级的差异化训练方案，休息日均匀分布 |
 | 🥗 **Macro Nutrition / 营养宏量** | Calorie, protein, carb & fat targets by goal and level / 按目标和水平定制的热量、蛋白质、碳水与脂肪 |
 | ⏱️ **Goal Timeline / 目标周期** | Science-backed weeks-to-goal prediction / 基于运动科学的达标时间预测 |
 | 🔥 **TDEE Calculator / 能量消耗** | BMR + activity factor × level multiplier model / 基础代谢 × 活动系数 × 水平系数模型 |
@@ -106,6 +106,20 @@ The fitness level you select significantly impacts **every** aspect of your plan
 | 🟢 Beginner / 新手 | 42% | 28% | Higher fat for satiety & hormones / 更多脂肪保障饱腹感与激素水平 |
 | 🟡 Intermediate / 进阶 | 45% | 25% | Balanced approach / 均衡分配 |
 | 🔴 Advanced / 高级 | 48% | 22% | More carbs for high-intensity performance / 更多碳水支撑高强度训练 |
+
+### Weekly Schedule Distribution / 每周训练分布
+
+Training days are optimally spread across the week to maximize recovery and avoid clustering:
+
+训练日在一周内均匀分布，最大化恢复效果，避免连续训练或连续休息过多：
+
+| Frequency / 频率 | Pattern / 分布模式 | Schedule / 日程 |
+|:---:|------|------|
+| 3 days / 3天 | `训 休 训 休 训 休 休` | Mon · Wed · Fri / 周一·周三·周五 |
+| 4 days / 4天 | `训 训 休 训 休 训 休` | Mon · Tue · Thu · Sat / 周一·周二·周四·周六 |
+| 5 days / 5天 | `训 训 休 训 训 休 训` | Mon · Tue · Thu · Fri · Sun / 周一·周二·周四·周五·周日 |
+| 6 days / 6天 | `训 训 训 训 训 训 休` | Mon – Sat / 周一至周六 |
+| 7 days / 7天 | `训 训 训 训 训 训 训` | Every day / 每天 |
 
 ---
 
