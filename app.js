@@ -323,27 +323,55 @@ function calcBMR(weight, height, age, gender) {
   return gender === 'male' ? base + 5 : base - 161;
 }
 
-function calcTDEE(bmr, daysPerWeek) {
-  const factors = { 3: 1.375, 4: 1.55, 5: 1.55, 6: 1.725, 7: 1.9 };
-  return Math.round(bmr * (factors[daysPerWeek] || 1.55));
+function calcTDEE(bmr, daysPerWeek, level) {
+  // Level significantly shifts the activity multiplier
+  // Advanced users train harder/longer even within the same session time
+  const baseFactor = { 3: 1.375, 4: 1.55, 5: 1.55, 6: 1.725, 7: 1.9 };
+  const levelMultiplier = { beginner: 0.90, intermediate: 1.0, advanced: 1.12 };
+  const base = baseFactor[daysPerWeek] || 1.55;
+  return Math.round(bmr * base * (levelMultiplier[level] || 1.0));
 }
 
-function calcCaloriesBurned(weight, minutes, goal) {
-  const metMap = { lose: 8, balance: 6.5, gain: 5 };
-  return Math.round((metMap[goal] * weight * 3.5 / 200) * minutes);
+function calcCaloriesBurned(weight, minutes, goal, level) {
+  // Level drastically changes MET (exercise intensity)
+  // Advanced users perform movements at far higher intensity
+  const metBase = { lose: 8, balance: 6.5, gain: 5 };
+  const levelMETBoost = { beginner: 0.75, intermediate: 1.0, advanced: 1.30 };
+  const met = metBase[goal] * (levelMETBoost[level] || 1.0);
+  return Math.round((met * weight * 3.5 / 200) * minutes);
 }
 
-function targetCalories(tdee, mode) {
-  if (mode === 'lose') return Math.max(tdee - 500, 1200);
-  if (mode === 'gain') return tdee + 300;
+function targetCalories(tdee, mode, level) {
+  // Level affects how aggressive the calorie adjustment is
+  // Beginners use a conservative approach; advanced users can handle bigger deficits/surpluses
+  const deficitMap = { beginner: 350, intermediate: 500, advanced: 650 };
+  const surplusMap = { beginner: 200, intermediate: 300, advanced: 450 };
+  if (mode === 'lose') return Math.max(tdee - (deficitMap[level] || 500), 1200);
+  if (mode === 'gain') return tdee + (surplusMap[level] || 300);
   return tdee;
 }
 
-function estimateWeeks(currentWeight, targetWeight, mode) {
+function estimateWeeks(currentWeight, targetWeight, mode, level) {
   const diff = Math.abs(targetWeight - currentWeight);
   if (diff < 0.5) return 0;
-  const kgPerWeek = mode === 'lose' ? 0.4 : mode === 'gain' ? 0.25 : 0.3;
+  // Advanced users progress faster due to higher training volume and intensity
+  const rateBase = {
+    lose:    { beginner: 0.3, intermediate: 0.4, advanced: 0.55 },
+    gain:    { beginner: 0.15, intermediate: 0.25, advanced: 0.35 },
+    balance: { beginner: 0.2, intermediate: 0.3, advanced: 0.4 }
+  };
+  const kgPerWeek = (rateBase[mode] && rateBase[mode][level]) || 0.3;
   return Math.ceil(diff / kgPerWeek);
+}
+
+function getProteinMultiplier(goal, level) {
+  // Protein needs vary significantly by level and goal
+  const map = {
+    lose:    { beginner: 1.4, intermediate: 1.8, advanced: 2.2 },
+    balance: { beginner: 1.5, intermediate: 1.9, advanced: 2.3 },
+    gain:    { beginner: 1.6, intermediate: 2.1, advanced: 2.6 }
+  };
+  return (map[goal] && map[goal][level]) || 1.8;
 }
 
 // ── Plan Database (Chinese) ────────────────────────────
@@ -590,13 +618,16 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const bmi = parseFloat(calcBMI(currentWeight, height));
   const bmiCat = getBMICategory(bmi);
   const bmr = calcBMR(currentWeight, height, age, gender);
-  const tdee = calcTDEE(bmr, frequency);
-  const targetCal = targetCalories(tdee, goal);
-  const proteinG = Math.round(currentWeight * (goal === 'gain' ? 2.1 : goal === 'lose' ? 1.8 : 1.9));
-  const carbG = Math.round((targetCal * 0.45) / 4);
-  const fatG = Math.round((targetCal * 0.25) / 9);
-  const calBurned = calcCaloriesBurned(currentWeight, dailyTime, goal);
-  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal);
+  const tdee = calcTDEE(bmr, frequency, level);
+  const targetCal = targetCalories(tdee, goal, level);
+  const proteinG = Math.round(currentWeight * getProteinMultiplier(goal, level));
+  // Macro split also varies by level — advanced athletes need more carbs for performance
+  const carbPct = level === 'advanced' ? 0.48 : level === 'intermediate' ? 0.45 : 0.42;
+  const fatPct = level === 'advanced' ? 0.22 : level === 'intermediate' ? 0.25 : 0.28;
+  const carbG = Math.round((targetCal * carbPct) / 4);
+  const fatG = Math.round((targetCal * fatPct) / 9);
+  const calBurned = calcCaloriesBurned(currentWeight, dailyTime, goal, level);
+  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal, level);
 
   const weightDiff = (targetWeight - currentWeight).toFixed(1);
   const dir = targetWeight < currentWeight ? t('dirReduce') : targetWeight > currentWeight ? t('dirIncrease') : t('dirMaintain');
@@ -780,9 +811,44 @@ function buildSchedule(planDays, frequency) {
   `).join('');
 }
 
-// ── Export PDF ────────────────────────────────────────
+// ── Export PDF (html2pdf.js) ─────────────────────────
 function exportPDF() {
-  window.print();
+  const content = document.getElementById('resultsContent');
+  if (!content || content.style.display === 'none') return;
+
+  const btn = document.querySelector('.export-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.querySelector('span').textContent = state.lang === 'zh' ? '正在生成 PDF…' : 'Generating PDF…';
+  }
+
+  const goalName = t('goalLabels')[state.goal] || state.goal;
+  const levelName = t('levelLabels')[state.level] || state.level;
+  const filename = `Morphix_${goalName}_${levelName}_${new Date().toISOString().slice(0,10)}.pdf`;
+
+  const opt = {
+    margin:       [10, 10, 10, 10],
+    filename:     filename,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0d1030' },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(content).save().then(() => {
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.querySelector('span').textContent = t('exportBtn');
+    }
+  }).catch(() => {
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.querySelector('span').textContent = t('exportBtn');
+    }
+  });
 }
 
 // ── Navbar Scroll Effect ───────────────────────────────
