@@ -41,6 +41,8 @@ const i18n = {
     labelGoal: '健身目标', goalLose: '🔥 减脂', goalBalance: '⚡ 塑形', goalGain: '💪 增肌',
     labelLevel: '当前健身水平', levelBeginner: '新手', levelIntermediate: '进阶', levelAdvanced: '高级',
     labelIntensity: '计划强度', intensityMild: '温和', intensityBalanced: '均衡', intensityAggressive: '激进',
+    intensityExtraAggressive: '+ 15 分钟高强度有氧 (燃脂加速)',
+    intensityExtraMild: '注：保持中低强度，避免过度疲劳',
     generateBtn: '生成我的专属计划',
     placeholderMsg: '填写左侧信息后，<br/>你的专属计划将在这里呈现',
     phHeight: '例如 175', phAge: '例如 25', phCurrent: '例如 75', phTarget: '例如 65',
@@ -117,6 +119,8 @@ const i18n = {
     labelGoal: 'Fitness Goal', goalLose: '🔥 Fat Loss', goalBalance: '⚡ Recomposition', goalGain: '💪 Muscle Gain',
     labelLevel: 'Fitness Level', levelBeginner: 'Beginner', levelIntermediate: 'Intermediate', levelAdvanced: 'Advanced',
     labelIntensity: 'Plan Intensity', intensityMild: 'Mild', intensityBalanced: 'Balanced', intensityAggressive: 'Aggressive',
+    intensityExtraAggressive: '+ 15 min HIIT (Accelerated Burn)',
+    intensityExtraMild: 'Note: Keep it moderate to avoid fatigue',
     generateBtn: 'Generate My Plan',
     placeholderMsg: 'Fill in your info on the left<br/>and your personalized plan will appear here.',
     phHeight: 'e.g. 175', phAge: 'e.g. 25', phCurrent: 'e.g. 75', phTarget: 'e.g. 65',
@@ -299,11 +303,23 @@ function setPlaceholder(id, txt) {
 }
 
 // ── Selector Helpers ──────────────────────────────────
+function tryAutoRegenerate() {
+  const content = document.getElementById('resultsContent');
+  if (content && content.style.display !== 'none') {
+    const h = parseFloat(document.getElementById('height').value);
+    const a = parseFloat(document.getElementById('age').value);
+    const cw = parseFloat(document.getElementById('currentWeight').value);
+    const tw = parseFloat(document.getElementById('targetWeight').value);
+    if (h && a && cw && tw) renderResults(h, a, cw, tw);
+  }
+}
+
 function selectGender(g) {
   state.gender = g;
   document.querySelectorAll('.gender-btn').forEach(b => b.classList.toggle('active', b.dataset.gender === g));
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 function selectFrequency(d) {
@@ -311,6 +327,7 @@ function selectFrequency(d) {
   document.querySelectorAll('.freq-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.days) === d));
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 function selectGoal(g) {
@@ -318,6 +335,7 @@ function selectGoal(g) {
   document.querySelectorAll('.goal-btn').forEach(b => b.classList.toggle('active', b.dataset.goal === g));
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 function selectIntensity(i) {
@@ -325,6 +343,7 @@ function selectIntensity(i) {
   document.querySelectorAll('.intensity-btn').forEach(b => b.classList.toggle('active', b.dataset.intensity === i));
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 function selectLevel(l) {
@@ -332,6 +351,7 @@ function selectLevel(l) {
   document.querySelectorAll('.level-btn').forEach(b => b.classList.toggle('active', b.dataset.level === l));
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 function updateTimeDisplay(val) {
@@ -343,6 +363,7 @@ function updateTimeDisplay(val) {
   slider.style.background = `linear-gradient(90deg, #00d4ff ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
   saveToLocalStorage();
   updateLivePreview();
+  tryAutoRegenerate();
 }
 
 // ── Validation ────────────────────────────────────────
@@ -806,7 +827,7 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const tipsDB = isEN ? NUTRITION_TIPS_EN : NUTRITION_TIPS;
 
   const planDays = templates[level][goal];
-  const scheduleDays = buildSchedule(planDays, frequency);
+  const scheduleDays = buildSchedule(planDays, frequency, state.intensity);
   const tips = tipsDB[goal];
 
   const heightM = height / 100;
@@ -959,16 +980,11 @@ function renderResults(height, age, currentWeight, targetWeight) {
   }
 }
 
-function buildSchedule(planDays, frequency) {
+function buildSchedule(planDays, frequency, intensity) {
   const dayNames = t('dayNames');
   const schedule = [];
 
   // Optimal training day indices — maximally spread rest days across the week
-  // 3 days: Mon/Wed/Fri  →  T R T R T R R
-  // 4 days: Mon/Tue/Thu/Sat  →  T T R T R T R
-  // 5 days: Mon/Tue/Thu/Fri/Sun  →  T T R T T R T
-  // 6 days: Mon–Sat  →  T T T T T T R
-  // 7 days: Every day  →  T T T T T T T
   const OPTIMAL = {
     3: [0, 2, 4],
     4: [0, 1, 3, 5],
@@ -989,15 +1005,23 @@ function buildSchedule(planDays, frequency) {
     }
   }
 
-  return schedule.map(s => `
+  return schedule.map(s => {
+    let detail = s.rest ? t('restDetail') : s.plan.exercises;
+    if (!s.rest && intensity === 'aggressive') {
+      detail += `<br/><span style="color:var(--accent-pink); font-size:0.75rem; margin-top:4px; display:inline-block;">🔥 ${t('intensityExtraAggressive')}</span>`;
+    } else if (!s.rest && intensity === 'mild') {
+      detail += `<br/><span style="color:var(--accent-green); font-size:0.75rem; margin-top:4px; display:inline-block;">🌿 ${t('intensityExtraMild')}</span>`;
+    }
+    return `
     <div class="schedule-day">
       <div class="day-badge">${s.day}</div>
       <div class="day-info">
         <div class="day-title">${s.rest ? t('restDay') : `🏃 ${s.plan.type}`}</div>
-        <div class="day-detail">${s.rest ? t('restDetail') : s.plan.exercises}</div>
+        <div class="day-detail">${detail}</div>
       </div>
     </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // ── Export PDF (html2pdf.js) ─────────────────────────
