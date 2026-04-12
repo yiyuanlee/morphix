@@ -787,7 +787,8 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const bmiCat = getBMICategory(bmi);
   const bmr = calcBMR(currentWeight, height, age, gender);
   const tdee = calcTDEE(bmr, frequency, level);
-  const targetCal = targetCalories(tdee, goal, state.intensity);
+  const actualMode = targetWeight < currentWeight ? 'lose' : targetWeight > currentWeight ? 'gain' : goal;
+  const targetCal = targetCalories(tdee, actualMode, state.intensity);
   const proteinG = Math.round(currentWeight * getProteinMultiplier(goal, level));
   // Macro split also varies by level — advanced athletes need more carbs for performance
   const carbPct = level === 'advanced' ? 0.48 : level === 'intermediate' ? 0.45 : 0.42;
@@ -1289,7 +1290,8 @@ function updateLivePreview() {
   if (a && a >= 15 && a <= 80) {
     const bmr = calcBMR(cw, h, a, state.gender);
     const tdee = calcTDEE(bmr, state.frequency, state.level);
-    const targetCal = targetCalories(tdee, state.goal, state.intensity);
+    const actualMode = (tw && tw >= 30 && tw <= 300) ? (tw < cw ? 'lose' : tw > cw ? 'gain' : state.goal) : state.goal;
+    const targetCal = targetCalories(tdee, actualMode, state.intensity);
     const calBurned = calcCaloriesBurned(cw, state.dailyTime, state.goal, state.level);
 
     previewCards += `
