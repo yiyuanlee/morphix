@@ -1023,6 +1023,85 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
 .plan-block-body { padding: 16px 18px; }
 
+/* Timeline Charts */
+.timeline-body { padding: 10px 20px 24px; }
+.timeline-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.timeline-wrap::-webkit-scrollbar { display: none; }
+
+.timeline-svg {
+  width: 100%;
+  min-width: 500px;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.timeline-path {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: drawTimeline 1.5s ease-out forwards;
+}
+
+@keyframes drawTimeline {
+  to { stroke-dashoffset: 0; }
+}
+
+.tl-label, .tl-weight, .tl-tag {
+  text-anchor: middle;
+  font-family: var(--font-main);
+  opacity: 0;
+  animation: fadeInNode 0.5s ease forwards 1.2s;
+}
+
+.tl-label {
+  font-size: 11px;
+  fill: var(--text-secondary);
+  font-weight: 500;
+}
+.tl-label.tl-highlight {
+  fill: var(--accent-purple);
+  font-weight: 700;
+}
+
+.tl-weight {
+  font-size: 10px;
+  fill: var(--text-muted);
+}
+
+.tl-tag {
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--accent-cyan);
+}
+
+.tl-node {
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: popNode 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 1s;
+}
+
+@keyframes popNode {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInNode {
+  to { opacity: 1; }
+}
+
+.timeline-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 20px;
+}
+
 .schedule-day {
   display: flex;
   align-items: flex-start;
