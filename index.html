@@ -367,6 +367,21 @@
           </div>
 
           <div class="form-group">
+            <label id="labelIntensity">计划强度</label>
+            <div class="intensity-select" id="intensitySelect">
+              <button type="button" class="intensity-btn mild" data-intensity="mild" onclick="selectIntensity('mild')">
+                <span class="intensity-dot"></span><span id="intensityMildText">温和</span>
+              </button>
+              <button type="button" class="intensity-btn balanced active" data-intensity="balanced" onclick="selectIntensity('balanced')">
+                <span class="intensity-dot"></span><span id="intensityBalancedText">均衡</span>
+              </button>
+              <button type="button" class="intensity-btn aggressive" data-intensity="aggressive" onclick="selectIntensity('aggressive')">
+                <span class="intensity-dot"></span><span id="intensityAggressiveText">激进</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label id="labelLevel">当前健身水平</label>
             <div class="level-select" id="levelSelect">
               <button type="button" class="level-btn active" data-level="beginner" onclick="selectLevel('beginner')">

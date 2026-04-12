@@ -8,6 +8,7 @@ let state = {
   dailyTime: 45,
   frequency: 4,
   goal: 'balance',
+  intensity: 'balanced',
   level: 'beginner',
   lang: 'zh'
 };
@@ -39,6 +40,7 @@ const i18n = {
     formTraining: '训练安排', labelDailyTime: '每天健身时间', labelFrequency: '健身频率（每周）',
     labelGoal: '健身目标', goalLose: '🔥 减脂', goalBalance: '⚡ 塑形', goalGain: '💪 增肌',
     labelLevel: '当前健身水平', levelBeginner: '新手', levelIntermediate: '进阶', levelAdvanced: '高级',
+    labelIntensity: '计划强度', intensityMild: '温和', intensityBalanced: '均衡', intensityAggressive: '激进',
     generateBtn: '生成我的专属计划',
     placeholderMsg: '填写左侧信息后，<br/>你的专属计划将在这里呈现',
     phHeight: '例如 175', phAge: '例如 25', phCurrent: '例如 75', phTarget: '例如 65',
@@ -114,6 +116,7 @@ const i18n = {
     formTraining: 'Training Setup', labelDailyTime: 'Daily Workout Duration', labelFrequency: 'Weekly Frequency',
     labelGoal: 'Fitness Goal', goalLose: '🔥 Fat Loss', goalBalance: '⚡ Recomposition', goalGain: '💪 Muscle Gain',
     labelLevel: 'Fitness Level', levelBeginner: 'Beginner', levelIntermediate: 'Intermediate', levelAdvanced: 'Advanced',
+    labelIntensity: 'Plan Intensity', intensityMild: 'Mild', intensityBalanced: 'Balanced', intensityAggressive: 'Aggressive',
     generateBtn: 'Generate My Plan',
     placeholderMsg: 'Fill in your info on the left<br/>and your personalized plan will appear here.',
     phHeight: 'e.g. 175', phAge: 'e.g. 25', phCurrent: 'e.g. 75', phTarget: 'e.g. 65',
@@ -248,6 +251,10 @@ function applyTranslations() {
   setText('levelBeginnerText', T.levelBeginner);
   setText('levelIntermediateText', T.levelIntermediate);
   setText('levelAdvancedText', T.levelAdvanced);
+  setText('labelIntensity', T.labelIntensity);
+  setText('intensityMildText', T.intensityMild);
+  setText('intensityBalancedText', T.intensityBalanced);
+  setText('intensityAggressiveText', T.intensityAggressive);
   setText('generateBtnText', T.generateBtn);
 
   // Placeholders
@@ -309,6 +316,13 @@ function selectFrequency(d) {
 function selectGoal(g) {
   state.goal = g;
   document.querySelectorAll('.goal-btn').forEach(b => b.classList.toggle('active', b.dataset.goal === g));
+  saveToLocalStorage();
+  updateLivePreview();
+}
+
+function selectIntensity(i) {
+  state.intensity = i;
+  document.querySelectorAll('.intensity-btn').forEach(b => b.classList.toggle('active', b.dataset.intensity === i));
   saveToLocalStorage();
   updateLivePreview();
 }
@@ -377,26 +391,23 @@ function calcCaloriesBurned(weight, minutes, goal, level) {
   return Math.round((met * weight * 3.5 / 200) * minutes);
 }
 
-function targetCalories(tdee, mode, level) {
-  // Level affects how aggressive the calorie adjustment is
-  // Beginners use a conservative approach; advanced users can handle bigger deficits/surpluses
-  const deficitMap = { beginner: 350, intermediate: 500, advanced: 650 };
-  const surplusMap = { beginner: 200, intermediate: 300, advanced: 450 };
-  if (mode === 'lose') return Math.max(tdee - (deficitMap[level] || 500), 1200);
-  if (mode === 'gain') return tdee + (surplusMap[level] || 300);
+function targetCalories(tdee, mode, intensity) {
+  const deficitMap = { mild: 250, balanced: 500, aggressive: 750 };
+  const surplusMap = { mild: 200, balanced: 300, aggressive: 500 };
+  if (mode === 'lose') return Math.max(tdee - (deficitMap[intensity] || 500), 1200);
+  if (mode === 'gain') return tdee + (surplusMap[intensity] || 300);
   return tdee;
 }
 
-function estimateWeeks(currentWeight, targetWeight, mode, level) {
+function estimateWeeks(currentWeight, targetWeight, mode, intensity) {
   const diff = Math.abs(targetWeight - currentWeight);
   if (diff < 0.5) return 0;
-  // Advanced users progress faster due to higher training volume and intensity
   const rateBase = {
-    lose:    { beginner: 0.3, intermediate: 0.4, advanced: 0.55 },
-    gain:    { beginner: 0.15, intermediate: 0.25, advanced: 0.35 },
-    balance: { beginner: 0.2, intermediate: 0.3, advanced: 0.4 }
+    lose:    { mild: 0.3, balanced: 0.55, aggressive: 0.8 },
+    gain:    { mild: 0.15, balanced: 0.3, aggressive: 0.5 },
+    balance: { mild: 0.2, balanced: 0.4, aggressive: 0.6 }
   };
-  const kgPerWeek = (rateBase[mode] && rateBase[mode][level]) || 0.3;
+  const kgPerWeek = (rateBase[mode] && rateBase[mode][intensity]) || 0.55;
   return Math.ceil(diff / kgPerWeek);
 }
 
@@ -776,7 +787,7 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const bmiCat = getBMICategory(bmi);
   const bmr = calcBMR(currentWeight, height, age, gender);
   const tdee = calcTDEE(bmr, frequency, level);
-  const targetCal = targetCalories(tdee, goal, level);
+  const targetCal = targetCalories(tdee, goal, state.intensity);
   const proteinG = Math.round(currentWeight * getProteinMultiplier(goal, level));
   // Macro split also varies by level — advanced athletes need more carbs for performance
   const carbPct = level === 'advanced' ? 0.48 : level === 'intermediate' ? 0.45 : 0.42;
@@ -784,7 +795,7 @@ function renderResults(height, age, currentWeight, targetWeight) {
   const carbG = Math.round((targetCal * carbPct) / 4);
   const fatG = Math.round((targetCal * fatPct) / 9);
   const calBurned = calcCaloriesBurned(currentWeight, dailyTime, goal, level);
-  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal, level);
+  const weeks = estimateWeeks(currentWeight, targetWeight, goal === 'balance' ? 'lose' : goal, state.intensity);
 
   const weightDiff = (targetWeight - currentWeight).toFixed(1);
   const dir = targetWeight < currentWeight ? t('dirReduce') : targetWeight > currentWeight ? t('dirIncrease') : t('dirMaintain');
@@ -1110,6 +1121,7 @@ function saveToLocalStorage() {
     dailyTime: state.dailyTime,
     frequency: state.frequency,
     goal: state.goal,
+    intensity: state.intensity,
     level: state.level,
     lang: state.lang
   };
@@ -1153,6 +1165,7 @@ function applyFormData(data) {
   }
   if (data.frequency) selectFrequency(parseInt(data.frequency));
   if (data.goal) selectGoal(data.goal);
+  if (data.intensity) selectIntensity(data.intensity);
   if (data.level) selectLevel(data.level);
   if (data.lang && data.lang !== state.lang) {
     state.lang = data.lang;
@@ -1177,6 +1190,7 @@ function getShareURL() {
   params.set('t', state.dailyTime);
   params.set('f', state.frequency);
   params.set('goal', state.goal);
+  params.set('it', state.intensity);
   params.set('lv', state.level);
   params.set('lang', state.lang);
   return window.location.origin + window.location.pathname + '?' + params.toString();
@@ -1220,6 +1234,7 @@ function parseURLParams() {
     dailyTime: params.get('t') || 45,
     frequency: params.get('f') || 4,
     goal: params.get('goal') || 'balance',
+    intensity: params.get('it') || 'balanced',
     level: params.get('lv') || 'beginner',
     lang: params.get('lang') || 'zh'
   };
@@ -1274,7 +1289,7 @@ function updateLivePreview() {
   if (a && a >= 15 && a <= 80) {
     const bmr = calcBMR(cw, h, a, state.gender);
     const tdee = calcTDEE(bmr, state.frequency, state.level);
-    const targetCal = targetCalories(tdee, state.goal, state.level);
+    const targetCal = targetCalories(tdee, state.goal, state.intensity);
     const calBurned = calcCaloriesBurned(cw, state.dailyTime, state.goal, state.level);
 
     previewCards += `
@@ -1291,7 +1306,7 @@ function updateLivePreview() {
     `;
 
     if (tw && tw >= 30 && tw <= 300) {
-      const weeks = estimateWeeks(cw, tw, state.goal === 'balance' ? 'lose' : state.goal, state.level);
+      const weeks = estimateWeeks(cw, tw, state.goal === 'balance' ? 'lose' : state.goal, state.intensity);
       previewCards += `
         <div class="preview-card">
           <div class="preview-label">${t('estTime')}</div>

@@ -783,14 +783,14 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   -webkit-text-fill-color: transparent;
 }
 
-/* Frequency / Goal / Level Selects */
-.frequency-select, .goal-select, .level-select {
+/* Frequency / Goal / Intensity / Level Selects */
+.frequency-select, .goal-select, .intensity-select, .level-select {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.freq-btn, .goal-btn, .level-btn {
+.freq-btn, .goal-btn, .intensity-btn, .level-btn {
   flex: 1;
   padding: 10px 8px;
   background: rgba(255,255,255,0.05);
@@ -802,7 +802,7 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   transition: var(--transition);
   min-width: 48px;
 }
-.freq-btn:hover, .goal-btn:hover, .level-btn:hover {
+.freq-btn:hover, .goal-btn:hover, .intensity-btn:hover, .level-btn:hover {
   background: rgba(255,255,255,0.09);
   color: var(--text-primary);
 }
@@ -812,14 +812,23 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   color: var(--accent-purple);
 }
 
-.level-btn { display: flex; align-items: center; gap: 6px; justify-content: center; }
-.level-dot {
+.level-btn, .intensity-btn { display: flex; align-items: center; gap: 6px; justify-content: center; }
+.level-dot, .intensity-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
   border: 2px solid currentColor;
   flex-shrink: 0;
 }
 .level-btn.active .level-dot { background: var(--accent-purple); }
+
+.intensity-btn.mild.active { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); color: var(--accent-green); }
+.intensity-btn.mild.active .intensity-dot { background: var(--accent-green); }
+
+.intensity-btn.balanced.active { background: rgba(0, 212, 255, 0.12); border-color: rgba(0, 212, 255, 0.4); color: var(--accent-cyan); }
+.intensity-btn.balanced.active .intensity-dot { background: var(--accent-cyan); }
+
+.intensity-btn.aggressive.active { background: rgba(236, 72, 153, 0.12); border-color: rgba(236, 72, 153, 0.4); color: var(--accent-pink); }
+.intensity-btn.aggressive.active .intensity-dot { background: var(--accent-pink); }
 
 /* Generate Button */
 .generate-btn {
