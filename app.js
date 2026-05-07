@@ -1364,6 +1364,122 @@ function initFormListeners() {
   });
 }
 
+// ── Exercise Library Data ────────────────────────────────
+const EXERCISE_LIBRARY = {
+  zh: [
+    { id: 'squat', icon: '🦵', name: '深蹲', muscle: '腿部·股四', equipment: '自重/杠铃', sets: '新手 3×12 · 进阶 4×10 · 高级 5×8', detail: '双脚与肩同宽，屈髋屈膝下蹲，膝盖与脚尖方向一致。' },
+    { id: 'lunge', icon: '🦵', name: '弓步蹲', muscle: '腿·臀', equipment: '自重/哑铃', sets: '新手 3×10 · 进阶 4×10 · 高级 4×12每腿', detail: '前后脚交替站立，向前迈步下蹲，保持躯干直立。' },
+    { id: 'pushup', icon: '💪', name: '俯卧撑', muscle: '胸·三头', equipment: '自重', sets: '新手 3×8 · 进阶 4×10 · 高级 4×15', detail: '双手撑地，间距略宽于肩，身体保持一条直线，下落推起。' },
+    { id: 'bench', icon: '💪', name: '哑铃卧推', muscle: '胸·三头', equipment: '哑铃', sets: '新手 3×10 · 进阶 4×10 · 高级 5×8', detail: '仰卧凳上，双手持哑铃向上推举，轨迹呈弧形。' },
+    { id: 'row', icon: '💪', name: '哑铃划船', muscle: '背·二头', equipment: '哑铃', sets: '新手 3×12 · 进阶 4×10 · 高级 4×12', detail: '单手撑凳，另一手提哑铃拉向髋部，感受背部发力。' },
+    { id: 'deadlift', icon: '🦵', name: '罗马尼亚硬拉', muscle: '腿后链·臀', equipment: '杠铃/哑铃', sets: '新手 3×10 · 进阶 4×8 · 高级 5×6', detail: '直腿屈髋下放杠铃，保持背部平直，膝盖微弯。' },
+    { id: 'shoulder-press', icon: '💪', name: '哑铃肩推', muscle: '肩·三头', equipment: '哑铃', sets: '新手 3×10 · 进阶 4×10 · 高级 4×12', detail: '坐站均可，双手持哑铃从肩部向上推举过头。' },
+    { id: 'curl', icon: '💪', name: '哑铃弯举', muscle: '二头肌', equipment: '哑铃', sets: '新手 3×12 · 进阶 3×12 · 高级 4×10', detail: '双手或单手持哑铃，向肩部弯曲手臂顶峰收缩。' },
+    { id: 'plank', icon: '🤸', name: '平板支撑', muscle: '核心', equipment: '自重', sets: '新手 3×30s · 进阶 3×45s · 高级 4×60s', detail: '肘撑或掌撑，身体呈一条直线，腹部收紧不塌腰。' },
+    { id: 'crunch', icon: '🤸', name: '卷腹', muscle: '腹肌', equipment: '自重', sets: '新手 3×15 · 进阶 3×20 · 高级 4×25', detail: '仰卧屈膝，卷起上背部向膝盖方向，不要用力拉脖子。' },
+    { id: 'hiit', icon: '🔥', name: 'HIIT训练', muscle: '全身·心肺', equipment: '自重', sets: '20-30分钟，30s全力+30s休息×轮', detail: '波比跳、登山者、开合跳、高抬腿等组合，高强度燃脂。' },
+    { id: 'cardio', icon: '🏃', name: '有氧训练', muscle: '心肺·全身', equipment: '跑步机/户外', sets: '新手 20min · 进阶 30min · 高级 40min', detail: '慢跑、快走、骑车、椭圆机等，稳定心率在燃脂区间。' },
+  ],
+  en: [
+    { id: 'squat', icon: '🦵', name: 'Squat', muscle: 'Legs · Quads', equipment: 'Bodyweight/Barbell', sets: 'Beginner 3×12 · Intermediate 4×10 · Advanced 5×8', detail: 'Feet shoulder-width apart, hip flexion and knee flexion to squat, knees track over toes.' },
+    { id: 'lunge', icon: '🦵', name: 'Lunge', muscle: 'Legs · Glutes', equipment: 'Bodyweight/Dumbbell', sets: 'Beginner 3×10 · Intermediate 4×10 · Advanced 4×12 each leg', detail: 'Alternate forward steps into a split squat, torso stays upright.' },
+    { id: 'pushup', icon: '💪', name: 'Push-Up', muscle: 'Chest · Triceps', equipment: 'Bodyweight', sets: 'Beginner 3×8 · Intermediate 4×10 · Advanced 4×15', detail: 'Hands slightly wider than shoulders, body straight line, lower and push up.' },
+    { id: 'bench', icon: '💪', name: 'Dumbbell Bench Press', muscle: 'Chest · Triceps', equipment: 'Dumbbells', sets: 'Beginner 3×10 · Intermediate 4×10 · Advanced 5×8', detail: 'Lie on bench, press dumbbells up in an arc trajectory.' },
+    { id: 'row', icon: '💪', name: 'Dumbbell Row', muscle: 'Back · Biceps', equipment: 'Dumbbell', sets: 'Beginner 3×12 · Intermediate 4×10 · Advanced 4×12', detail: 'One hand on bench, pull dumbbell to hip, squeeze back.' },
+    { id: 'deadlift', icon: '🦵', name: 'Romanian Deadlift', muscle: 'Hamstrings · Glutes', equipment: 'Barbell/Dumbbell', sets: 'Beginner 3×10 · Intermediate 4×8 · Advanced 5×6', detail: 'Hinge at hips with straight legs, lower bar keeping back flat.' },
+    { id: 'shoulder-press', icon: '💪', name: 'Dumbbell Shoulder Press', muscle: 'Shoulders · Triceps', equipment: 'Dumbbells', sets: 'Beginner 3×10 · Intermediate 4×10 · Advanced 4×12', detail: 'Seated or standing, press dumbbells overhead from shoulder level.' },
+    { id: 'curl', icon: '💪', name: 'Dumbbell Curl', muscle: 'Biceps', equipment: 'Dumbbell', sets: 'Beginner 3×12 · Intermediate 3×12 · Advanced 4×10', detail: 'Curl dumbbells toward shoulders, squeeze at the top.' },
+    { id: 'plank', icon: '🤸', name: 'Plank', muscle: 'Core', equipment: 'Bodyweight', sets: 'Beginner 3×30s · Intermediate 3×45s · Advanced 4×60s', detail: 'Forearms or hands on ground, body straight line, brace abs.' },
+    { id: 'crunch', icon: '🤸', name: 'Crunch', muscle: 'Abs', equipment: 'Bodyweight', sets: 'Beginner 3×15 · Intermediate 3×20 · Advanced 4×25', detail: 'Lie on back, curl shoulders toward knees, do not pull on neck.' },
+    { id: 'hiit', icon: '🔥', name: 'HIIT Training', muscle: 'Full Body · Cardio', equipment: 'Bodyweight', sets: '20-30min, 30s all-out + 30s rest × rounds', detail: 'Burpees, mountain climbers, jumping jacks, high knees — high intensity fat burn.' },
+    { id: 'cardio', icon: '🏃', name: 'Cardio Training', muscle: 'Heart · Full Body', equipment: 'Treadmill/Outdoor', sets: 'Beginner 20min · Intermediate 30min · Advanced 40min', detail: 'Jogging, brisk walking, cycling, elliptical — keep heart rate in fat-burn zone.' },
+  ]
+};
+
+// ── Exercise Library Functions ─────────────────────────
+function openExerciseLibrary() {
+  const modal = document.getElementById('exerciseModal');
+  const grid = document.getElementById('exerciseGrid');
+  const filters = document.getElementById('exerciseFilters');
+  if (!modal || !grid) return;
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  // Set title
+  const titleEl = document.getElementById('exLibTitle');
+  if (titleEl) titleEl.textContent = state.lang === 'zh' ? '🏋️ 动作库' : '🏋️ Exercise Library';
+
+  // Build filter buttons
+  if (filters) {
+    const isEN = state.lang === 'en';
+    const filterNames = isEN
+      ? ['All', 'Legs', 'Chest', 'Back', 'Shoulders', 'Arms', 'Core', 'Cardio']
+      : ['全部', '腿部', '胸部', '背部', '肩部', '手臂', '核心', '有氧'];
+    const filterKeys = ['all', 'leg', 'chest', 'back', 'shoulder', 'arm', 'core', 'cardio'];
+
+    filters.innerHTML = filterNames.map((name, i) =>
+      `<button class="ex-filter-btn ${i === 0 ? 'active' : ''}" data-filter="${filterKeys[i]}" onclick="filterExercises('${filterKeys[i]}')">${name}</button>`
+    ).join('');
+  }
+
+  renderExerciseGrid('all');
+}
+
+function closeExerciseLibrary() {
+  const modal = document.getElementById('exerciseModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+function filterExercises(filter) {
+  // Update active button
+  document.querySelectorAll('.ex-filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  renderExerciseGrid(filter);
+}
+
+function renderExerciseGrid(filter) {
+  const grid = document.getElementById('exerciseGrid');
+  if (!grid) return;
+
+  const isEN = state.lang === 'en';
+  const exercises = EXERCISE_LIBRARY[isEN ? 'en' : 'zh'];
+
+  const filtered = filter === 'all' ? exercises : exercises.filter(ex => {
+    const muscleLower = ex.muscle.toLowerCase();
+    const nameLower = ex.name.toLowerCase();
+    switch (filter) {
+      case 'leg': return muscleLower.includes('leg') || muscleLower.includes('腿') || nameLower.includes('squat') || nameLower.includes('lunge') || nameLower.includes('深蹲') || nameLower.includes('弓步');
+      case 'chest': return muscleLower.includes('chest') || muscleLower.includes('胸') || nameLower.includes('pushup') || nameLower.includes('bench') || nameLower.includes('俯卧撑') || nameLower.includes('卧推');
+      case 'back': return muscleLower.includes('back') || muscleLower.includes('背') || nameLower.includes('row') || nameLower.includes('划船') || nameLower.includes('deadlift') || nameLower.includes('硬拉');
+      case 'shoulder': return muscleLower.includes('shoulder') || muscleLower.includes('肩') || nameLower.includes('press') || nameLower.includes('肩推');
+      case 'arm': return muscleLower.includes('bicep') || muscleLower.includes('tricep') || muscleLower.includes('arm') || muscleLower.includes('二头') || nameLower.includes('curl') || nameLower.includes('弯举');
+      case 'core': return muscleLower.includes('core') || muscleLower.includes('abs') || muscleLower.includes('核心') || muscleLower.includes('腹') || nameLower.includes('plank') || nameLower.includes('crunch') || nameLower.includes('平板') || nameLower.includes('卷腹');
+      case 'cardio': return muscleLower.includes('cardio') || muscleLower.includes('心肺') || nameLower.includes('hiit') || nameLower.includes('cardio') || nameLower.includes('有氧');
+      default: return true;
+    }
+  });
+
+  grid.innerHTML = filtered.map(ex => `
+    <div class="exercise-card">
+      <div class="ex-card-header">
+        <span class="ex-card-icon">${ex.icon}</span>
+        <span class="ex-card-title">${ex.name}</span>
+      </div>
+      <span class="ex-card-muscle">${ex.muscle}</span>
+      <div class="ex-card-detail">${ex.detail}</div>
+      <div class="ex-card-sets">
+        <div>📋 ${isEN ? 'Recommended Sets: ' : '推荐组数：'}${ex.sets}</div>
+        <div>🛠️ ${isEN ? 'Equipment: ' : '器材：'}${ex.equipment}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
 // ── Init ───────────────────────────────────────────────
 (function init() {
   // 1. URL params take priority, then localStorage

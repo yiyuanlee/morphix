@@ -42,6 +42,7 @@
         <a href="#features" class="nav-link" id="navFeatures">功能</a>
         <a href="#calculator" class="nav-link" id="navCalc">开始计划</a>
         <a href="#how-it-works" class="nav-link" id="navHow">原理</a>
+        <button class="nav-link nav-exercise-btn" id="navExercises" onclick="openExerciseLibrary()" style="background:none;border:none;cursor:pointer;color:var(--text-secondary);font-weight:500;transition:var(--transition-fast);">动作库</button>
       </div>
       <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
         <span id="langLabel">EN</span>
@@ -438,6 +439,21 @@
       </div>
     </div>
   </section>
+
+  <!-- Exercise Library Modal -->
+  <div class="exercise-modal" id="exerciseModal" style="display:none;">
+    <div class="exercise-modal-backdrop" onclick="closeExerciseLibrary()"></div>
+    <div class="exercise-modal-content">
+      <div class="exercise-modal-header">
+        <h2 id="exLibTitle">🏋️ 动作库</h2>
+        <button class="exercise-modal-close" onclick="closeExerciseLibrary()">✕</button>
+      </div>
+      <div class="exercise-modal-body" id="exerciseModalBody">
+        <div class="exercise-filters" id="exerciseFilters"></div>
+        <div class="exercise-grid" id="exerciseGrid"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
