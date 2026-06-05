@@ -10,9 +10,9 @@
 [![HTML5](https://img.shields.io/badge/HTML5-Pure-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://github.com/yiyuanlee/morphix)
 [![i18n](https://img.shields.io/badge/i18n-中文%20%2F%20English-a855f7?style=for-the-badge)](https://yiyuanlee.github.io/morphix)
 
-> **Morphix** is an AI-driven fitness planning engine that generates fully personalized workout schedules and nutrition targets — based on your body metrics, goals, fitness level, and lifestyle. No login. No subscription. Just results.
+> **Morphix** is a science-driven fitness planning engine that generates fully personalized workout schedules and nutrition targets — based on your body metrics, goals, fitness level, and lifestyle. No login. No subscription. Just results.
 >
-> **Morphix** 是一款 AI 驱动的智能健身引擎，根据你的身体数据、目标、健身水平和生活习惯，自动生成个性化训练计划与营养方案。无需注册，无需付费，即刻开始。
+> **Morphix** 是一款科学算法驱动的健身计划引擎，根据你的身体数据、目标、健身水平和生活习惯，自动生成个性化训练计划与营养方案。无需注册，无需付费，即刻开始。
 
 </div>
 
@@ -96,11 +96,19 @@ The fitness level you select significantly impacts **every** aspect of your plan
 
 ### Caloric Targets / 热量目标
 
+Base adjustment by fitness level; plan intensity scales it (Mild ×0.75 · Balanced ×1.0 · Aggressive ×1.25). Minimum intake respects gender floor and 110% BMR.
+
+基础调整按健身水平计算；计划强度在此基础上缩放（温和 ×0.75 · 均衡 ×1.0 · 激进 ×1.25）。最低摄入不低于性别下限与 BMR 的 110%。
+
 | Goal / 目标 | 🟢 Beginner / 新手 | 🟡 Intermediate / 进阶 | 🔴 Advanced / 高级 | Weekly Rate / 每周进度 |
 |:---:|:---:|:---:|:---:|:---:|
 | 🔥 Fat Loss / 减脂 | TDEE − 350 | TDEE − 500 | TDEE − 650 | 0.3 – 0.55 kg |
 | ⚡ Recomp / 塑形 | TDEE | TDEE | TDEE | Maintain / 维持 |
 | 💪 Gain / 增肌 | TDEE + 200 | TDEE + 300 | TDEE + 450 | 0.15 – 0.35 kg |
+
+When target weight differs from the selected goal (e.g. "Recomp" but target is lower), Morphix auto-adjusts to fat loss or muscle gain and shows a notice.
+
+当目标体重与所选模式不一致时（如选「塑形」但目标体重更低），Morphix 会自动切换为减脂/增肌并给出提示。
 
 ### Macro Split / 宏量分配
 

@@ -12,6 +12,7 @@
   --text-primary: #f0f4ff;
   --text-secondary: rgba(240, 244, 255, 0.6);
   --text-muted: rgba(240, 244, 255, 0.35);
+  --text-dim: rgba(240, 244, 255, 0.45);
 
   --accent-cyan: #00d4ff;
   --accent-purple: #a855f7;
@@ -936,6 +937,18 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.mode-adjust-notice {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 212, 255, 0.06);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  font-size: 0.78rem;
+  color: var(--accent-cyan);
+  line-height: 1.5;
+  text-align: left;
 }
 
 /* BMI Card */
