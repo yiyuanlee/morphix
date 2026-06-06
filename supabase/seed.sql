@@ -1,0 +1,50 @@
+-- Morphix seed / reference data
+-- Run after migrations: supabase db reset (local) or apply manually in SQL editor.
+-- This file documents JSON payloads; it does not insert production user data.
+
+-- ---------------------------------------------------------------------------
+-- plans.input_snapshot — mirrors app.js localStorage / morphix_data
+-- ---------------------------------------------------------------------------
+-- {
+--   "height": 175,
+--   "age": 25,
+--   "currentWeight": 75,
+--   "targetWeight": 70,
+--   "gender": "male",
+--   "dailyTime": 45,
+--   "frequency": 4,
+--   "goal": "balance",
+--   "intensity": "balanced",
+--   "level": "beginner",
+--   "lang": "zh"
+-- }
+
+-- ---------------------------------------------------------------------------
+-- plans.result_snapshot — computed summary (not full rendered HTML)
+-- ---------------------------------------------------------------------------
+-- {
+--   "bmi": 24.5,
+--   "bmiCategory": "normal",
+--   "bmr": 1680,
+--   "tdee": 2350,
+--   "targetCalories": 1850,
+--   "proteinG": 105,
+--   "carbG": 194,
+--   "fatG": 57,
+--   "calBurned": 420,
+--   "weeks": 10,
+--   "actualMode": "lose",
+--   "goalLabel": "Fat Loss",
+--   "levelLabel": "Beginner",
+--   "generatedAt": "2026-06-06T10:30:00.000Z"
+-- }
+
+-- Optional local dev fixture (requires an auth.users row with matching id):
+-- insert into public.plans (user_id, title, actual_mode, input_snapshot, result_snapshot)
+-- values (
+--   '00000000-0000-0000-0000-000000000001',
+--   'Fat Loss · Beginner',
+--   'lose',
+--   '{"height":175,"age":25,"currentWeight":75,"targetWeight":70,"gender":"male","dailyTime":45,"frequency":4,"goal":"balance","intensity":"balanced","level":"beginner","lang":"zh"}'::jsonb,
+--   '{"bmi":24.5,"actualMode":"lose","weeks":10,"targetCalories":1850}'::jsonb
+-- );

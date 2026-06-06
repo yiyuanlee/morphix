@@ -162,7 +162,22 @@ morphix/
 ├── style.css       # Design system, animations & print styles / 设计系统与动画
 ├── app.js          # Core engine — BMR, TDEE, level system, PDF / 核心引擎
 ├── favicon.svg     # Vector app icon / 矢量图标
+├── supabase/       # Postgres migrations (Phase 1 SaaS) / 数据库迁移
+│   └── migrations/
+├── docs/           # Phase 1 backlog, database schema docs / 文档
 └── README.md       # You are here / 你在这里
+```
+
+---
+
+## 🗄️ Database (Phase 1 SaaS) / 数据库
+
+Phase 1 schema lives in `supabase/migrations/`. See **[docs/database-schema.md](docs/database-schema.md)** for table definitions and JSON payload shapes.
+
+```bash
+# After Supabase project setup (issue #19)
+supabase db reset      # local: apply migrations + seed
+supabase db push       # remote: push migrations to linked project
 ```
 
 ---
