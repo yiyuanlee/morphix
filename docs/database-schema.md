@@ -1,7 +1,8 @@
 # Morphix Phase 1 Database Schema
 
 Migration: `supabase/migrations/20260606103000_phase1_schema.sql`  
-Issue: [#4](https://github.com/yiyuanlee/morphix/issues/4)
+RLS policies: `supabase/migrations/20260606120000_phase1_rls_policies.sql`  
+Issues: [#4](https://github.com/yiyuanlee/morphix/issues/4), [#6](https://github.com/yiyuanlee/morphix/issues/6)
 
 ## Tables
 
@@ -13,7 +14,48 @@ Issue: [#4](https://github.com/yiyuanlee/morphix/issues/4)
 | `checkins` | Training day completion |
 | `subscriptions` | Stripe subscription mirror |
 
-RLS is **enabled** on all tables; policies are defined in issue [#6](https://github.com/yiyuanlee/morphix/issues/6).
+RLS is **enabled** on all tables. Policies live in `20260606120000_phase1_rls_policies.sql`.
+
+| Table | Client (`authenticated`) | Server (`service_role`) |
+|-------|------------------------|-------------------------|
+| `profiles` | SELECT, UPDATE own row (`id = auth.uid()`) | Full access (bypasses RLS) |
+| `plans` | SELECT, INSERT, UPDATE, DELETE own rows | Full access |
+| `weight_logs` | SELECT, INSERT, UPDATE, DELETE own rows | Full access |
+| `checkins` | SELECT, INSERT, UPDATE, DELETE own rows; `plan_id` must belong to user | Full access |
+| `subscriptions` | **SELECT own row only** | INSERT/UPDATE/DELETE via Stripe webhook (#12) |
+
+## RLS testing
+
+Run after `supabase db reset` with two test users (User A, User B).
+
+### Via Supabase client (browser console / app)
+
+```javascript
+// As User A — should succeed
+await supabase.from('plans').select('*');
+
+// As User A — inserting with User B's id should fail
+await supabase.from('plans').insert({
+  user_id: '<user-b-uuid>',
+  actual_mode: 'lose',
+  input_snapshot: {},
+  result_snapshot: {},
+});
+```
+
+### Expected results
+
+| Action | Role | Expected |
+|--------|------|----------|
+| `SELECT plans` | User A | Only A's rows |
+| `INSERT plans` with B's `user_id` | User A | RLS violation |
+| `SELECT subscriptions` | User A | Own subscription or empty |
+| `INSERT subscriptions` | User A (anon key) | RLS violation (no policy) |
+| `UPSERT subscriptions` | service_role | Success |
+
+### SQL editor note
+
+The Supabase SQL editor runs as `postgres` and bypasses RLS. Use the client SDK with user JWTs for real policy tests.
 
 ## Entity relationships
 
