@@ -136,3 +136,7 @@ supabase db push
 | `checkins` | `(user_id, checkin_date desc)` | Weekly view |
 | `checkins` | unique `(user_id, checkin_date)` | Upsert by date |
 | `subscriptions` | `(user_id)`, `(stripe_subscription_id)` | Billing lookups |
+
+## Authentication
+
+User sign-up triggers `handle_new_user()` → `profiles` row. See [auth-setup.md](./auth-setup.md).

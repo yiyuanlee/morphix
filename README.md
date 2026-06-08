@@ -180,6 +180,15 @@ supabase db reset      # local: apply migrations + seed
 supabase db push       # remote: push migrations to linked project
 ```
 
+### Authentication / 认证
+
+Email magic link + Google OAuth via Supabase. See **[docs/auth-setup.md](docs/auth-setup.md)**.
+
+```bash
+cp config.example.js config.js   # add Supabase URL + anon key
+python -m http.server 8080       # auth callback: /auth/callback.html
+```
+
 ---
 
 ## ⚠️ Disclaimer / 免责声明

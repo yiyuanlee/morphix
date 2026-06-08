@@ -25,3 +25,31 @@ sql_paths = ["./seed.sql"]
 [studio]
 enabled = true
 port = 54323
+
+# ---------------------------------------------------------------------------
+# Auth (issue #5) — https://github.com/yiyuanlee/morphix/issues/5
+# Dashboard: Authentication → URL Configuration must match these redirects.
+# ---------------------------------------------------------------------------
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:8080"
+additional_redirect_urls = [
+  "http://127.0.0.1:8080/auth/callback.html",
+  "http://localhost:8080/auth/callback.html",
+  "http://127.0.0.1:5500/auth/callback.html",
+  "http://localhost:5500/auth/callback.html",
+  "https://yiyuanlee.github.io/morphix/auth/callback.html"
+]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+double_confirm_changes = true
+
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+skip_nonce_check = false

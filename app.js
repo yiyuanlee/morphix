@@ -187,6 +187,7 @@ function toggleLang() {
   document.getElementById('langLabel').textContent = state.lang === 'zh' ? 'EN' : '中';
   document.documentElement.lang = state.lang === 'zh' ? 'zh-CN' : 'en';
   applyTranslations();
+  if (window.MorphixAuth) MorphixAuth.onLanguageChange();
   // Re-render results if visible
   if (document.getElementById('resultsContent').style.display !== 'none') {
     const h = parseFloat(document.getElementById('height').value);

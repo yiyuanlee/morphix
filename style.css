@@ -190,6 +190,180 @@ input { font-family: inherit; }
   background: rgba(0, 212, 255, 0.06);
 }
 
+/* Auth nav */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-user-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-auth-btn {
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+}
+.nav-auth-btn:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  color: var(--accent-cyan);
+}
+.nav-auth-btn--ghost {
+  background: transparent;
+}
+
+/* Auth modal */
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.auth-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 9, 26, 0.85);
+  backdrop-filter: blur(12px);
+}
+.auth-modal-content {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px 28px;
+  width: 100%;
+  max-width: 400px;
+  animation: slideInModal 0.3s ease;
+}
+.auth-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.auth-modal-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+.auth-modal-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth-form label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.auth-form input[type="email"] {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+}
+.auth-form input[type="email"]:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+.auth-submit-btn {
+  margin-top: 8px;
+  padding: 14px;
+  border: none;
+  border-radius: 50px;
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+.auth-google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.auth-google-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+.auth-google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.auth-message {
+  margin-top: 16px;
+  font-size: 0.82rem;
+  text-align: center;
+  min-height: 1.2em;
+}
+.auth-message--success { color: var(--accent-green); }
+.auth-message--error { color: #ef4444; }
+
 /* ===========================
    Sections & Wrappers
    =========================== */
@@ -1655,6 +1829,8 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
 @media (max-width: 768px) {
   .nav-links { display: none; }
+  .nav-user-email { display: none; }
+  .nav-auth { margin-left: 0; }
   .hero { padding: 90px 20px 50px; }
   .features { padding: 60px 20px; }
   .how-it-works { padding: 60px 20px; }
