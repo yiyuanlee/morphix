@@ -196,6 +196,11 @@ function toggleLang() {
     const tw = parseFloat(document.getElementById('targetWeight').value);
     if (h && a && cw && tw) renderResults(h, a, cw, tw);
   }
+  // Re-render weight tracker so chart/labels pick up the new target
+  if (window.MorphixWeight && MorphixWeight.setTargetWeight) {
+    const twInput = parseFloat(document.getElementById('targetWeight').value);
+    MorphixWeight.setTargetWeight(Number.isFinite(twInput) ? twInput : null);
+  }
 }
 
 function applyTranslations() {
@@ -1600,3 +1605,46 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     }
   });
 });
+
+// ---------------------------------------------------------------
+// Weight Tracker integration (Issue #14)
+// ---------------------------------------------------------------
+// Expose a small, stable handle for other modules (e.g. weight-tracker.js)
+// to read app state without depending on the module-scoped `state` variable.
+window.MorphixApp = {
+  getLang: () => state.lang,
+  getLevel: () => state.level,
+  getGoal: () => state.goal,
+  getTargetWeight: () => {
+    const el = document.getElementById('targetWeight');
+    if (!el) return null;
+    const v = parseFloat(el.value);
+    return Number.isFinite(v) ? v : null;
+  },
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.MorphixWeight) {
+    MorphixWeight.init();
+  }
+});
+
+// Re-render weight tracker after sign-in / sign-out
+if (window.MorphixAuth) {
+  const origInit = MorphixAuth.init;
+  MorphixAuth.init = async function () {
+    const result = await origInit.apply(this, arguments);
+    if (window.MorphixWeight) {
+      await MorphixWeight.refresh();
+    }
+    return result;
+  };
+  const origSignOut = MorphixAuth.signOut;
+  MorphixAuth.signOut = async function () {
+    const result = await origSignOut.apply(this, arguments);
+    if (window.MorphixWeight) {
+      await MorphixWeight.refresh();
+    }
+    return result;
+  };
+}
