@@ -189,6 +189,35 @@ cp config.example.js config.js   # add Supabase URL + anon key
 python -m http.server 8080       # auth callback: /auth/callback.html
 ```
 
+### Stripe Webhook / Stripe Webhook
+
+Morphix includes a Cloudflare Worker endpoint at `/api/webhooks/stripe` for the Phase 1 Pro subscription mirror.
+
+Required Worker secrets:
+
+```bash
+wrangler secret put SUPABASE_URL
+wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+wrangler secret put STRIPE_SECRET_KEY
+wrangler secret put STRIPE_WEBHOOK_SECRET
+```
+
+The webhook verifies Stripe signatures, stores processed event IDs in `stripe_webhook_events`, and syncs `subscriptions.status` plus `current_period_end` from Stripe for:
+
+- `checkout.session.completed`
+- `customer.subscription.updated`
+- `customer.subscription.deleted`
+- `invoice.payment_failed`
+
+Checkout Sessions should include one user identifier in metadata (`user_id`, `supabase_user_id`, or `morphix_user_id`) or `client_reference_id` so the webhook can map the Stripe subscription to an auth user.
+
+Local Stripe CLI smoke:
+
+```bash
+stripe listen --forward-to http://127.0.0.1:8787/api/webhooks/stripe
+wrangler dev
+```
+
 ---
 
 ## ⚠️ Disclaimer / 免责声明
